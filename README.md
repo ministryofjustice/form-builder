@@ -41,6 +41,7 @@ uses
 - fb-specification
 - fb-nunjucks-helpers
 - fb-runtime-node
+- fb-utils-node
 - eslint-config-fb
 
 ### [fb-runtime-node](https://github.com/ministryofjustice/fb-runtime-node)
