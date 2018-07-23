@@ -5,12 +5,20 @@ Jumping-off point for all the related form-builder repos
 
 ### [fb-specification](https://github.com/ministryofjustice/fb-specification)
 
-Form Builder JSON Schema Specifications (and associated nunjucks macros)
+Form Builder JSON Schema Specifications
 
 uses
 
 - fb-utils-node
 - eslint-config-fb
+
+### [fb-components-core](https://github.com/ministryofjustice/fb-components-core)
+
+Form Builder core component schemas and associated nunjucks macros
+
+uses
+
+- fb-specification
 
 ### [fb-documentation](https://github.com/ministryofjustice/fb-documentation)
 
