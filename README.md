@@ -22,7 +22,7 @@ uses
 
 ### [fb-documentation](https://github.com/ministryofjustice/fb-documentation)
 
-Form Builder documentation
+Form Builder documentation **(Currently broken)**
 
 uses
 
@@ -98,7 +98,7 @@ Standard eslint config for Form Builder projects
 
 ## Service repos
 
-### [fb-example-service](https://github.com/ministryofjustice/fb-service-starter)
+### [fb-example-service](https://github.com/ministryofjustice/fb-example-service)
 
 Example service
 
