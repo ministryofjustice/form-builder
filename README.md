@@ -1,7 +1,7 @@
 # form-builder
 Jumping-off point for all the related form-builder repos
 
-## Specifications
+## Specifications and components
 
 ### [fb-specification](https://github.com/ministryofjustice/fb-specification)
 
@@ -64,6 +64,9 @@ uses
 - fb-utils-node
 - eslint-config-fb
 
+
+## Utilties
+
 ### [fb-runtime-node](https://github.com/ministryofjustice/fb-runtime-node)
 
 Transforms edit-time Form Builder service instances into run-time ones
@@ -73,8 +76,6 @@ uses
 - fb-specification
 - fb-utils-node
 - eslint-config-fb
-
-## Utilties
 
 ### [fb-nunjucks-helpers](https://github.com/ministryofjustice/fb-nunjucks-helpers)
 
@@ -95,6 +96,7 @@ uses
 ### [eslint-config-fb](https://github.com/ministryofjustice/eslint-config-fb)
 
 Standard eslint config for Form Builder projects
+
 
 ## Service repos
 
