@@ -30,6 +30,18 @@ uses
 
 ## Editor
 
+### [fb-editor-node](https://github.com/ministryofjustice/fb-editor-node)
+
+Form Builder Editor
+
+uses
+
+- fb-runner-node
+
+### [fb-editor-install](https://github.com/ministryofjustice/fb-editor-install)
+
+Helper scripts to install the editor and to duplicate a [base service repo](https://github.com/ministryofjustice/fb-service-starter)
+
 ## Publisher
 
 UI - [fb-publisher](https://github.com/ministryofjustice/fb-publisher)
@@ -83,3 +95,13 @@ uses
 ### [eslint-config-fb](https://github.com/ministryofjustice/eslint-config-fb)
 
 Standard eslint config for Form Builder projects
+
+## Service repos
+
+### [fb-example-service](https://github.com/ministryofjustice/fb-service-starter)
+
+Example service
+
+### [fb-service-starter](https://github.com/ministryofjustice/fb-service-starter)
+
+Base service to duplicate
