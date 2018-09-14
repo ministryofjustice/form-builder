@@ -50,6 +50,14 @@ Service build/deploy PoC scripts - [fb-publisher-scripts](https://github.com/min
 
 Deployment & infrastructure provisioning of the Publisher app - [fb-publisher-deploy](https://github.com/ministryofjustice/fb-publisher-deploy)
 
+Deployed on the Cloud Platform in these environments:
+
+[dev](http://fb-publisher-dev.apps.cloud-platform-live-0.k8s.integration.dsd.io)
+[staging](http://fb-publisher-staging.apps.cloud-platform-live-0.k8s.integration.dsd.io)
+
+Both of the above should be able to deploy services into dev or staging.
+There is no 'production' yet!
+
 ## Runner
 
 ### [fb-runner-node](https://github.com/ministryofjustice/fb-runner-node)
