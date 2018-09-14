@@ -52,8 +52,9 @@ Deployment & infrastructure provisioning of the Publisher app - [fb-publisher-de
 
 Deployed on the Cloud Platform in these environments:
 
-[dev](http://fb-publisher-dev.apps.cloud-platform-live-0.k8s.integration.dsd.io)
-[staging](http://fb-publisher-staging.apps.cloud-platform-live-0.k8s.integration.dsd.io)
+[Dev](http://fb-publisher-dev.apps.cloud-platform-live-0.k8s.integration.dsd.io)
+
+[Staging](http://fb-publisher-staging.apps.cloud-platform-live-0.k8s.integration.dsd.io)
 
 Both of the above should be able to deploy services into dev or staging.
 There is no 'production' yet!
