@@ -73,8 +73,14 @@ uses
 - fb-utils-node
 - eslint-config-fb
 
+## User Datastore
 
-## Utilties
+### [fb-user-datastore](https://github.com/ministryofjustice/fb-user-datastore)
+
+Stores encrypted data entered by users on the Runner servces. Provides a simple
+Get / Post JSON API to achieve that.
+
+## Utilities
 
 ### [fb-runtime-node](https://github.com/ministryofjustice/fb-runtime-node)
 
