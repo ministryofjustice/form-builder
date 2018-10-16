@@ -67,11 +67,36 @@ Form Builder Runner (Node version)
 
 uses
 
+- fb-user-datastore-client-node
+- fb-submitter-client-node
 - fb-specification
 - fb-nunjucks-helpers
 - fb-runtime-node
 - fb-utils-node
 - eslint-config-fb
+
+## Microservice clients
+
+### [fb-user-datastore-client-node](https://github.com/ministryofjustice/fb-user-datastore-client-node)
+
+User Datastore client
+
+uses
+
+- fb-jwt-client-node
+
+### [fb-submitter-client-node](https://github.com/ministryofjustice/fb-submitter-client-node)
+
+Submitter client
+
+uses
+
+- fb-jwt-client-node
+
+### [fb-jwt-client-node](https://github.com/ministryofjustice/fb-jwt-client-node)
+
+Base client for making JSON Web Token-backed requests
+
 
 ## User Datastore
 
