@@ -105,6 +105,13 @@ Base client for making JSON Web Token-backed requests
 Stores encrypted data entered by users on the Runner servces. Provides a simple
 Get / Post JSON API to achieve that.
 
+
+## Submitter
+
+### [fb-submitter](https://github.com/ministryofjustice/fb-submitter)
+
+Once a user on a Runner service has completed their journey, clicking the final Submit button will result in the service sending a request to the Submitter - which asynchronously retrieves the user's information and sends it to where it needs to go. Provides a simple Get / Post JSON API to achieve that.
+
 ## Utilities
 
 ### [fb-runtime-node](https://github.com/ministryofjustice/fb-runtime-node)
