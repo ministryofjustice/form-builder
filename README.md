@@ -20,6 +20,7 @@ uses
 
 - fb-specification
 
+<!--
 ### [fb-documentation](https://github.com/ministryofjustice/fb-documentation)
 
 Form Builder documentation **(Currently broken)**
@@ -27,6 +28,7 @@ Form Builder documentation **(Currently broken)**
 uses
 
 - fb-nunjucks-helpers
+-->
 
 ## Editor
 
