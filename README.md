@@ -38,9 +38,10 @@ uses
 
 - fb-runner-node
 
-### [fb-editor-install](https://github.com/ministryofjustice/fb-editor-install)
+### [fb-editor-electron](https://github.com/ministryofjustice/fb-editor-electron)
 
-Helper scripts to install the editor and to duplicate a [base service repo](https://github.com/ministryofjustice/fb-service-starter)
+Application that installs the Form Builder Editor locally (along with all its dependencies) and provides a dashboard to create forms and run the editor.
+
 
 ## Publisher
 
