@@ -44,6 +44,9 @@ uses
 
 Application that installs the Form Builder Editor locally (along with all its dependencies) and provides a dashboard to create forms and run the editor.
 
+### [fb-user-guide](https://github.com/ministryofjustice/fb-user-guide)
+
+Form Builder User Guide
 
 ## Publisher
 
