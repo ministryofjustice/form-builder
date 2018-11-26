@@ -40,7 +40,7 @@ uses
 
 - fb-runner-node
 
-### [fb-editor-electron](https://github.com/ministryofjustice/fb-editor-electron)
+### [fb-editor-console-electron](https://github.com/ministryofjustice/fb-editor-console-electron)
 
 Application that installs the Form Builder Editor locally (along with all its dependencies) and provides a dashboard to create forms and run the editor.
 
