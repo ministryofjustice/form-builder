@@ -1,6 +1,8 @@
 # form-builder
 Jumping-off point for all the related form-builder repos
 
+[Technical documentation overview](https://docs.google.com/document/d/1-FyGx0OzobbQjNjA-7Y5Gp-z_9e4FX1SFpUUt-ax4bE)
+
 ## Specifications and components
 
 ### [fb-specification](https://github.com/ministryofjustice/fb-specification)
@@ -118,7 +120,17 @@ Get / Post JSON API to achieve that.
 
 Once a user on a Runner service has completed their journey, clicking the final Submit button will result in the service sending a request to the Submitter - which asynchronously retrieves the user's information and sends it to where it needs to go. Provides a simple Get / Post JSON API to achieve that.
 
+## Cloud Platform Environments configuration
+
+### [fb-cloud-platform-environments](https://github.com/ministryofjustice/fb-cloud-platform-environments)
+
+Generate Cloud Platform Environments k8s and terraform config for Form Builder namespaces
+
 ## Utilities
+
+### [fb-deploy-utils](https://github.com/ministryofjustice/fb-deploy-utils)
+
+Utility scripts to aid deployment of Form Builder platform applications
 
 ### [fb-runtime-node](https://github.com/ministryofjustice/fb-runtime-node)
 
