@@ -1,0 +1,83 @@
+sequenceDiagram
+
+participant U as User
+
+participant R as Runner
+
+participant DS as User Datastore API
+
+participant DB as User Datastore DB
+
+Note over U: Confirmation link
+
+U->>+R: GET /savereturn/email/confirm/:email_token
+
+R-->>-U: 
+
+U->>+R: POST /savereturn/email/confirm
+
+Note right of U: {<br>email_token,<br>[passphrase]<br>}
+
+R->>+DS: POST /service/:service/savereturn/email/confirm
+
+Note right of R: {<br>email_token,<br>[passphrase]<br>}
+
+DS->>+DB: Fetch email_token record 
+
+DB-->>-DS: 
+
+Note over DS: [Check passphrase]
+
+Note over DS: Check email_token <br>valid
+
+alt: Link or passphrase invalid
+
+  DS-->>R:   error
+
+  alt: passphrase incorrect
+
+    R-->>U:   error
+
+  else: Link used
+
+    R-->>U:   error
+
+  else: Link expired
+
+    R-->>U:   error
+
+  else: Link superseded
+
+    R-->>U:   error
+
+  else: Link invalid
+
+    R-->>U:   error
+
+  end
+
+end
+
+Note over DS: Mark link as used
+
+DS->>+DB: Update email_token record 
+
+Note right of DS: {<br>...<br>invalid: used<br>}
+
+DB-->>-DS: 
+
+DS-->>-R:  {email_details}
+
+Note over R: Decrypt email_details]
+
+alt: if no cookie
+
+  Note over R: Set user cookie
+
+end
+
+Note over R: Add email_details<br>to userData
+
+R-->>-U: 
+
+Note over U: --> Use mobile?

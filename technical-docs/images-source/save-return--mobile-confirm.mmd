@@ -1,0 +1,69 @@
+sequenceDiagram
+
+participant U as User
+
+participant R as Runner
+
+participant DS as User Datastore API
+
+participant DB as User Datastore DB
+
+Note over U: Enter code
+
+U->>+R: POST /savereturn/mobile/confirm
+
+Note right of U: {<br>code<br>}
+
+Note over R: Retrieve mobile<br>from userData
+
+Note over R: Encrypt mobile
+
+R-->>+DS: POST /service/:service/savereturn/mobile/confirm
+
+Note right of R: {<br>code,<br>mobile<br>}
+
+DS->>+DB: Find matching record
+
+Note right of DS: ? <br>{<br>type: code<br>mobile<br>}
+
+DB-->>-DS:  
+
+Note over DS: check code valid
+
+alt: if code invalid
+
+  DS-->>R:  
+
+  alt: Code used
+
+    R-->>U: error
+
+  else: Code expired
+
+    R-->>U: error
+
+  else: Code invalid
+
+    R-->>U: error
+
+  end
+
+end
+
+  Note over DS: Mark code as used
+
+  DS->>+DB: Update code record 
+
+  Note right of DS: {<br>...<br>invalid: used<br>}
+
+  DB-->>-DS: 
+
+DS-->>-R:   {2fa_details}
+
+Note over R: Decrypt 2fa_details
+
+Note over R: Add 2fa_details<br>to userData
+
+R-->>-U: 
+
+Note over U: --> Create <br>savereturn record

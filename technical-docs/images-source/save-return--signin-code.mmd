@@ -1,0 +1,33 @@
+sequenceDiagram
+
+participant U as User
+
+participant R as Runner
+
+participant DS as User Datastore API
+
+participant DB as User Datastore DB
+
+U->>+R: POST /return/code
+
+Note right of U: code
+
+Note over R: Get email, mobile<br>from current cookie
+
+R-->>+DS: GET /service/:service/savereturn/signin/email/:email/mobile/:mobile/code/:code
+
+DS->>+DB: Find matching record
+
+DB-->>-DS: 
+
+Note over DS: Check code <br>expiry date
+
+DS-->>-R: userDetails
+
+Note over R: Decrypt userDetails
+
+Note over R: Set cookie using id <br>and token <br>from userDetails
+
+R-->>-U:  
+
+Note over U: Ends

@@ -1,0 +1,41 @@
+sequenceDiagram
+
+participant U as User
+
+participant R as Runner
+
+participant DS as User Datastore API
+
+participant DB as User Datastore DB
+
+U->>+R: POST /savereturn/create`
+
+Note over R: Get<br>- email,<br>[- mobile]<br>from userData<br>(email_details<br>/2fa_details)
+
+Note over R: Set userDetails to<br>{<br>userId,<br>userToken<br>}
+
+Note over R: Encrypt <br>AES256 with <br>SERVICE_SECRET <br>- email, <br>- [mobile], <br>- userDetails
+
+R-->>+DS: POST /service/:service/savereturn/create
+
+alt: Email and mobile
+
+  Note right of R: {<br>email,<br>mobile, <br>userDetails<br>}
+
+else: Email only
+
+  Note right of R: {<br>email,<br>userDetails, <br>emailOnly: true<br>}
+
+end
+
+DS->>+DB: Create record (email must be unique)
+
+Note right of DS: {<br>type: savereturn<br>service<br>...<br>}
+
+DB-->>-DS: 
+
+DS-->>-R: 
+
+R-->>-U:  
+
+Note over U: Ends

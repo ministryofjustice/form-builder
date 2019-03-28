@@ -1,0 +1,73 @@
+sequenceDiagram
+
+participant U as User
+
+participant R as Runner
+
+participant DS as User Datastore API
+
+participant DB as User Datastore DB
+
+Note over U: Invoke <br>save and return
+
+U->>+R: POST /savereturn/start
+
+Note right of U: page data
+
+Note over R: Update userData<br>with page data
+
+R-->>-U: 
+
+Note over U: Set up<br>- email<br>- [passphrase]<br>(passphrase only if <br>2fa mandatory)
+
+alt: Did not get email
+
+  Note over U: Resend email
+
+  U->>R: POST /savereturn/email/resend
+
+end
+
+U->>+R: POST /savereturn/email/add
+
+Note right of U: {<br>email,<br>[passphrase]<br>}
+
+Note over R: Encrypt<br>AES256 with<br>SERVICE_SECRET<br>- email<br>- userId<br>- userToken<br><br>--> email_details
+
+Note over R: Encrypt <br>- email<br>- [passphrase]
+
+R->>+DS: POST /service/:service/savereturn/email/add
+
+Note right of R: {<br>email_for_sending,<br>email<br>[passphrase],<br>email_details,<br>duration<br>link_template<br>service_vars: {...}<br>}
+
+DS->>+DB: Find valid record matching email
+
+DB-->>-DS: 
+
+alt: if existing email_token record
+
+  DS->>+DB: Update record as invalid
+
+  Note right of DS: {<br>...<br>invalid: superseded<br>}
+
+  DB-->>-DS: 
+
+end
+
+Note over DS: Create email_token<br>UUID v4
+
+Note over DS: Create expiry_time<br>based on duration
+
+DS->>+DB: Create email_token record 
+
+Note right of DS: { <br>type: email_token<br>email_token<br>expiry_time,<br>email<br>[passphrase]<br>email_details<br> }
+
+DB-->>-DS: 
+
+DS-XU: Send confirmation email via GOV Notify
+
+DS-->>-R:  
+
+R-->>-U: 
+
+Note over U: --> Confirmation

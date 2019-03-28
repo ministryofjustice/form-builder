@@ -1,0 +1,25 @@
+@import url("https://assets.publishing.service.gov.uk/static/fonts-e9ec5a5f82e5c2a17927ce356e5a054cb28025ec1547ec5d00f5c98d2ec5e481.css");
+
+*,
+foreignObject,
+text {
+  font-family: nta !important;
+}
+.actor {
+  fill: #005ea5 !important;
+  font-weight: bold;
+}
+text.actor tspan {
+  fill: #fff;
+}
+.note {
+  stroke: #000000 !important;
+  fill: #ffbf47 !important;
+}
+.loopLine {
+  stroke: #28a197 !important;
+}
+polygon {
+  stroke: #28a197 !important;
+  fill: #28a197 !important;
+}

@@ -1,0 +1,22 @@
+{
+  "name": "form-builder",
+  "version": "1.0.0",
+  "description": "Form Builder technical documentation and information",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "generate:images": "node ./bin/generate-images.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ministryofjustice/form-builder.git"
+  },
+  "author": "formbuilder@digital.justice.gov.uk",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ministryofjustice/form-builder/issues"
+  },
+  "homepage": "https://github.com/ministryofjustice/form-builder#readme",
+  "dependencies": {
+    "mermaid.cli": "^0.5.1"
+  }
+}

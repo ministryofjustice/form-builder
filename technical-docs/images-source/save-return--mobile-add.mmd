@@ -1,0 +1,71 @@
+sequenceDiagram
+
+participant U as User
+
+participant R as Runner
+
+participant DS as User Datastore API
+
+participant DB as User Datastore DB
+
+Note over U: Use mobile?
+
+U->>+R: GET /savereturn/mobile/use
+
+R-->>-U:  
+
+Note over U: Add mobile
+
+alt: Did not get code
+
+Note over U: Resend code
+
+U->>R: POST /savereturn/mobile/resend
+
+end
+
+U->>+R: POST /savereturn/mobile/add
+
+Note right of U: {<br>mobile<br>}
+
+Note over R: Retrieve email<br>from email_details<br>in userData
+
+Note over R: Encrypt<br>AES256 with<br>SERVICE_SECRET<br>- email<br>- mobile<br>- userId<br>- userToken<br><br>--> 2fa_details
+
+Note over R: Encrypt mobile
+
+R->>+DS: POST /service/:service/savereturn/email/add
+
+Note right of R: {<br>mobile_for_sending<br>mobile<br>2fa_details<br>}
+
+DS->>+DB: Find valid record matching code 
+
+DB-->>-DS: 
+
+alt: if existing code record
+
+DS->>+DB: Update record as invalid 
+
+Note right of DS: {<br>...<br>invalid: superseded<br>}
+
+DB-->>-DS: 
+
+end
+
+Note over DS: Create  code<br>(5 digits - check<br>with security)
+
+Note over DS: Create expiry_time<br>based on duration
+
+DS->>+DB: Create code record 
+
+Note right of DS: { <br>type: code<br>code<br>mobile<br>2fa_details<br>expiry_time<br> }
+
+DB-->>-DS: 
+
+DS-XU: Send code sms via GOV Notify
+
+DS-->>-R:  
+
+R-->>-U:  
+
+Note over U: --> Enter code
