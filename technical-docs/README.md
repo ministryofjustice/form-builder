@@ -1,6 +1,5 @@
 # Technical documentation
 
-## APIs
 - [Save and return](save-return.md)
 - [User Filestore](user-filestore-api.md)
 
