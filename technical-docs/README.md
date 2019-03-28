@@ -12,4 +12,4 @@
 
 ## Migrating docs
 
-[Previous technical documentation overview](https://docs.google.com/document/d/1-FyGx0OzobbQjNjA-7Y5Gp-z_9e4FX1SFpUUt-ax4bE)
+[Previous technical documentation overview - Google Docs](https://docs.google.com/document/d/1-FyGx0OzobbQjNjA-7Y5Gp-z_9e4FX1SFpUUt-ax4bE)

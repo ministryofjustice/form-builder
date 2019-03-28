@@ -2,5 +2,5 @@
 
 Jumping off point for Ministry of Justice’s Form Builder
 
-- [Technical documentation](technical-docs/README.md)
+- [Technical documentation](technical-docs)
 - [Repositories](repositories.md)
