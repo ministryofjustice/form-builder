@@ -10,7 +10,7 @@ participant DB as User Datastore DB
 
 Note over U: Invoke <br>save and return
 
-U->>+R: POST /savereturn/start
+U->>+R: POST /return/setup
 
 Note right of U: page data
 
@@ -24,11 +24,11 @@ alt: Did not get email
 
   Note over U: Resend email
 
-  U->>R: POST /savereturn/email/resend
+  U->>R: POST /return/setup/email/resend
 
 end
 
-U->>+R: POST /savereturn/email/add
+U->>+R: POST /return/setup/email/add
 
 Note right of U: {<br>email,<br>[passphrase]<br>}
 

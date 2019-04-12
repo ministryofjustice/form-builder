@@ -7,7 +7,7 @@ NB. this is still a draft
 - [Error responses](#error-responses)
 - [Signing requests](#signing-requests)
 
-### Save
+### Save (create return record)
 
 - [Create email token for user to confirm email](#create-email-token-for-user-to-confirm-email)
 - [Confirm user’s email](#confirm-users-email-address)
@@ -42,7 +42,7 @@ Requests should be signed with JWT - see [Signing requests with JWT](request-sig
 }
 ```
 
-## Save
+## Save (create return record)
 
 ### Create email token for user to confirm email
 
@@ -55,15 +55,15 @@ Requests should be signed with JWT - see [Signing requests with JWT](request-sig
 
 Expected body
 
-```
+``` json
 {
-  email_for_sending,
-  email,
-  [passphrase],
-  email_details,
-  duration: {number} minutes|hours?,
-  link_template: {string},
-  [service_vars: {}]
+  "email_for_sending": "<string>",
+  "email": "<encrypted_string>",
+  "[passphrase]": "<encrypted_string>",
+  "email_details": "<encrypted_string>",
+  "duration": "<number>",
+  "link_template": "<string>",
+  "[service_vars]": "<object>"
 }
 ```
 
