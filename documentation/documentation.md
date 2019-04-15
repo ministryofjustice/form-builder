@@ -1,12 +1,12 @@
 # Documentation
 
 - [Save and return](save-and-return/save-and-return--api.md)
-- [User Filestore](user-filestore/user-filestore-api.md)
+- [User Filestore](file-upload/file-upload.md)
 
 ## Misc
 - [Signing requests with JWT](request-signing-with-jwt.md)
 - [Error responses](error-responses.md)
-- [Logging][logging.md]
+- [Logging](logging.md)
 
 
 

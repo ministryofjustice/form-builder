@@ -42,14 +42,14 @@ Requests should be signed with JWT - see [Signing requests with JWT](request-sig
 }
 ```
 
-## Save (create return record)
+## Save (setup return record)
 
 ### Create email token for user to confirm email
 
-  - create email token
-  - invalidate previous tokens
-  - store encrypted email details
-  - send email
+- create email token
+- invalidate previous tokens
+- store encrypted email details
+- send email
 
 `POST /service/:service/savereturn/email/add`
 
@@ -95,39 +95,52 @@ Current time + duration (minutes|hours?)
 
 ### Confirm user’s email address
 
-/service/:service/savereturn/email/confirm
-  - confirm email token validity
-  - return error codes
-  - mark email token used
-  - return encrypted email details
+- confirm email token validity
+- return error codes
+- mark email token used
+- return encrypted email details
+
+`POST /service/:service/savereturn/email/confirm`
+
+Expected body
+
+``` json
+{
+  "email_token": "<string>",
+  "[passphrase]": "<encrypted_string>"
+}
+```
 
 [![Title](images/return--setup--email-validation.png)](images/return--setup--email-validation.svg)
 
 
 ### Create code for user to confirm mobile
 
-/service/:service/savereturn/mobile/add
-  - create code
-  - invalidate previous codes
-  - store encrypted 2fa details
-  - send sms
+- create code
+- invalidate previous codes
+- store encrypted 2fa details
+- send sms
+
+`POST /service/:service/savereturn/mobile/add`
 
 [![Title](images/return--setup--mobile-add.png)](images/return--setup--mobile-add.svg)
 
 ### Confirm user’s mobile
 
-/service/:service/savereturn/mobile/confirm
-  - confirm code validity
-  - return error codes
-  - mark code used
-  - return encrypted 2fa details
+- confirm code validity
+- return error codes
+- mark code used
+- return encrypted 2fa details
+
+`POST /service/:service/savereturn/mobile/confirm`
 
 [![Title](images/return--setup--mobile-validation.png)](images/return--setup--mobile-validation.svg)
 
 ### Create save and return record for user
 
-/service/:service/savereturn/create
-  - create savereturn details
+- create savereturn details
+
+`POST /service/:service/savereturn/create`
 
 [![Title](images/return--setup--create-record.png)](images/return--setup--create-record.svg)
 
@@ -137,35 +150,38 @@ Current time + duration (minutes|hours?)
 
 ### Create magiclink for user
 
-/service/:service/savereturn/signin/email/:email
-  - create magiclink
-  - invalidate previous magiclinks
-  - store savereturn key (email)
-  - send email
+- create magiclink
+- invalidate previous magiclinks
+- store savereturn key (email)
+- send email
+
+`POST /service/:service/savereturn/signin/email/:email`
 
 [![Title](images/return--signin.png)](images/return--signin.svg)
 
 
 ### Confirm user’s magiclink
 
-/service/:service/savereturn/signin/magiclink/:magiclink
-  - confirm magiclink validity
-  - return error codes
-  - return savereturn details if email only
-  - create signin code if 2fa
-  - invalidate previous signin codes
-  - store savereturn key (email)
-  - send sms
+- confirm magiclink validity
+- return error codes
+- return savereturn details if email only
+- create signin code if 2fa
+- invalidate previous signin codes
+- store savereturn key (email)
+- send sms
+
+`POST /service/:service/savereturn/signin/magiclink/:magiclink`
 
 [![Title](images/return--signin--magiclink.png)](images/return--signin--magiclink.svg)
 
 
 ### Confirm user’s signin code
 
-/service/:service/savereturn/signin/email/:email/mobile/:mobile/code/:code
   - confirm siginin code validity
   - return error codes
   - mark signin code used
   - return savereturn details
+
+`POST /service/:service/savereturn/signin/email/:email/mobile/:mobile/code/:code`
 
 [![Title](images/return--signin--code.png)](images/return--signin--code.svg)
