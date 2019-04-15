@@ -91,7 +91,7 @@ Current time + duration (minutes|hours?)
 }
 ```
 
-[![Title](images/save-return--email-add.png)](images/save-return--email-add.svg)
+[![Title](images/return--setup--email-add.png)](images/return--setup--email-add.svg)
 
 ### Confirm user’s email address
 
@@ -101,7 +101,7 @@ Current time + duration (minutes|hours?)
   - mark email token used
   - return encrypted email details
 
-[![Title](images/save-return--email-validation.png)](images/save-return--email-validation.svg)
+[![Title](images/return--setup--email-validation.png)](images/return--setup--email-validation.svg)
 
 
 ### Create code for user to confirm mobile
@@ -112,7 +112,7 @@ Current time + duration (minutes|hours?)
   - store encrypted 2fa details
   - send sms
 
-[![Title](images/save-return--mobile-add.png)](images/save-return--mobile-add.svg)
+[![Title](images/return--setup--mobile-add.png)](images/return--setup--mobile-add.svg)
 
 ### Confirm user’s mobile
 
@@ -122,14 +122,14 @@ Current time + duration (minutes|hours?)
   - mark code used
   - return encrypted 2fa details
 
-[![Title](images/save-return--mobile-validation.png)](images/save-return--mobile-validation.svg)
+[![Title](images/return--setup--mobile-validation.png)](images/return--setup--mobile-validation.svg)
 
 ### Create save and return record for user
 
 /service/:service/savereturn/create
   - create savereturn details
 
-[![Title](images/save-return--create-record.png)](images/save-return--create-record.svg)
+[![Title](images/return--setup--create-record.png)](images/return--setup--create-record.svg)
 
 
 
@@ -143,7 +143,7 @@ Current time + duration (minutes|hours?)
   - store savereturn key (email)
   - send email
 
-[![Title](images/save-return--signin-start.png)](images/save-return--signin-start.svg)
+[![Title](images/return--signin.png)](images/return--signin.svg)
 
 
 ### Confirm user’s magiclink
@@ -157,7 +157,7 @@ Current time + duration (minutes|hours?)
   - store savereturn key (email)
   - send sms
 
-[![Title](images/save-return--signin-magiclink.png)](images/save-return--signin-magiclink.svg)
+[![Title](images/return--signin--magiclink.png)](images/return--signin--magiclink.svg)
 
 
 ### Confirm user’s signin code
@@ -168,4 +168,4 @@ Current time + duration (minutes|hours?)
   - mark signin code used
   - return savereturn details
 
-[![Title](images/save-return--signin-code.png)](images/save-return--signin-code.svg)
+[![Title](images/return--signin--code.png)](images/return--signin--code.svg)
