@@ -101,7 +101,7 @@ Current time + duration (minutes|hours?)
   - mark email token used
   - return encrypted email details
 
-[![Title](images/save-return--email-confirmation.png)](images/save-return--email-confirmation.svg)
+[![Title](images/save-return--email-validation.png)](images/save-return--email-validation.svg)
 
 
 ### Create code for user to confirm mobile
@@ -122,7 +122,7 @@ Current time + duration (minutes|hours?)
   - mark code used
   - return encrypted 2fa details
 
-[![Title](images/save-return--mobile-confirm.png)](images/save-return--mobile-confirm.svg)
+[![Title](images/save-return--mobile-validation.png)](images/save-return--mobile-validation.svg)
 
 ### Create save and return record for user
 

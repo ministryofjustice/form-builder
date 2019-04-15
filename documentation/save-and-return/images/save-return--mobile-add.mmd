@@ -8,27 +8,25 @@ participant DS as User Datastore API
 
 participant DB as User Datastore DB
 
-Note over U: Use mobile?
+Note over U: Enter mobile
 
-U->>+R: GET /savereturn/mobile/use
-
-R-->>-U:  
-
-Note over U: Add mobile
-
-alt: Did not get code
-
-Note over U: Resend code
-
-U->>R: POST /savereturn/mobile/resend
-
-end
-
-U->>+R: POST /savereturn/mobile/add
+U->>+R: POST /return/setup/mobile
 
 Note right of U: {<br>mobile<br>}
 
-Note over R: Retrieve email<br>from email_details<br>in userData
+Note over R: Add mobile <br>to userData
+
+R-->>-U:  Redirect /return/setup/mobile/confirm
+
+Note over U: Double-check mobile
+
+U->>+R: POST /return/setup/mobile/confirm
+
+Note right of U: {<br>mobile_confirmed<br>}
+
+Note over R: Get mobile <br>from userData
+
+Note over R: Get email<br>from email_details<br>in userData
 
 Note over R: Encrypt<br>AES256 with<br>SERVICE_SECRET<br>- email<br>- mobile<br>- userId<br>- userToken<br><br>--> 2fa_details
 
@@ -66,6 +64,16 @@ DS-XU: Send code sms via GOV Notify
 
 DS-->>-R:  
 
-R-->>-U:  
+R-->>-U:  Redirect /return/setup/mobile/validate
+
+Note over U: Resend code
+
+alt: Did not get code
+
+U->>R: POST /return/setup/mobile/resend
+
+R-->>U: Redirect /return/setup/mobile/validate
+
+end
 
 Note over U: --> Enter code

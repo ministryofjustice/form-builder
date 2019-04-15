@@ -8,9 +8,17 @@ participant DS as User Datastore API
 
 participant DB as User Datastore DB
 
-U->>+R: POST /signin
+Note over U: Invoke
 
-Note right of U: email
+U->>+R: GET /return
+
+R-->>-U: Redirect /return/email
+
+Note over U: Enter email
+
+U->>+R: POST /return/email
+
+Note right of U: {<br>email<br>}
 
 Note over R: Encrypt email
 
@@ -46,6 +54,16 @@ DS-XU: Send magiclink email via GOV Notify
 
 DS-->>-R:  
 
-R-->>-U:  
+R-->>-U:  Redirect to /return/email/check
 
-Note over U: -> email<br>/email + mobile
+Note over U: -> email<br> or email + mobile
+
+Note over U: Resend magiclink
+
+alt: Did not get magiclink
+
+U->>R: POST /return/email/resend
+
+R-->>U: Redirect /return/email/check
+
+end

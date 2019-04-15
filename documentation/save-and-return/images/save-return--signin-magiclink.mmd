@@ -8,7 +8,7 @@ participant DS as User Datastore API
 
 participant DB as User Datastore DB
 
-U->>+R: GET /savereturn/magiclink/:magiclink
+U->>+R: GET /return/magiclink/:magiclink
 
 R-->>+DS: POST /service/:service/savereturn/signin/magiclink/:magiclink
 
@@ -66,7 +66,7 @@ Note over R: Decrypt userDetails
 
 Note over R: Set cookie using id <br>and token <br>from userDetails
 
-R-->>U:  
+R-->>U:  Redirect /return/authenticated
 
 else: email and mobile
 
@@ -105,6 +105,6 @@ Note over R: Set email, mobile<br>on current cookie
 
 R-XU: Send sms with code
 
-R-->>-U: redirect to /return/code
+R-->>-U: Redirect /return/code
 
 end

@@ -10,7 +10,7 @@ participant DB as User Datastore DB
 
 Note over U: Enter code
 
-U->>+R: POST /savereturn/mobile/confirm
+U->>+R: POST /return/setup/mobile/code/:mobile_validation_code
 
 Note right of U: {<br>code<br>}
 
@@ -64,6 +64,6 @@ Note over R: Decrypt 2fa_details
 
 Note over R: Add 2fa_details<br>to userData
 
-R-->>-U: 
+R-->>-U: Redirect to /return/setup/success
 
-Note over U: --> Create <br>savereturn record
+Note over U: --> Create record

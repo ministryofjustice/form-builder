@@ -8,30 +8,39 @@ participant DS as User Datastore API
 
 participant DB as User Datastore DB
 
-Note over U: Invoke <br>save and return
+Note over U: Invoke
 
-U->>+R: POST /return/setup
+U->>+R: POST current page
 
-Note right of U: page data
+Note right of U: {<br>  page data<br>  save_return: true<br>}
 
 Note over R: Update userData<br>with page data
 
-R-->>-U: 
+R-->>-U: Redirect to /return/setup
 
-Note over U: Set up<br>- email<br>- [passphrase]<br>(passphrase only if <br>2fa mandatory)
+Note over U: Process explanation
 
-alt: Did not get email
+U->>+R: POST /return/setup
 
-  Note over U: Resend email
+R-->>-U: redirect /return/setup/email
 
-  U->>R: POST /return/setup/email/resend
+Note over U: Enter email and <br>passphrase (only if <br>2fa mandatory)
 
-end
-
-U->>+R: POST /return/setup/email/add
+U->>+R: POST /return/setup/email
 
 Note right of U: {<br>email,<br>[passphrase]<br>}
 
+Note over R: Add email <br>(and passphrase) <br>to userData
+
+R-->>-U: redirect /return/setup/email/confirm
+
+Note over U: Double-check email
+
+U->>+R: POST /return/setup/email/confirm
+
+Note right of U: {<br>email_confirmed<br>}
+
+Note over R: Get email <br>(and passphrase) <br>from userData
 Note over R: Encrypt<br>AES256 with<br>SERVICE_SECRET<br>- email<br>- userId<br>- userToken<br><br>--> email_details
 
 Note over R: Encrypt <br>- email<br>- [passphrase]
@@ -68,6 +77,16 @@ DS-XU: Send confirmation email via GOV Notify
 
 DS-->>-R:  
 
-R-->>-U: 
+R-->>-U: Redirect to /return/setup/email/validate
+
+Note over U: Resend email
+
+alt: Did not get email
+
+  U->>+R: POST /return/setup/email/resend
+
+  R-->>-U: Redirect to /return/setup/email/validate
+
+end
 
 Note over U: --> Confirmation

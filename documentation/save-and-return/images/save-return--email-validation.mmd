@@ -10,11 +10,11 @@ participant DB as User Datastore DB
 
 Note over U: Confirmation link
 
-U->>+R: GET /savereturn/email/confirm/:email_token
+U->>+R: GET /return/setup/email/:magiclink
 
-R-->>-U: 
+R-->>-U: Redirect /return/setup/email/add
 
-U->>+R: POST /savereturn/email/confirm
+U->>+R: POST /return/setup/email/add
 
 Note right of U: {<br>email_token,<br>[passphrase]<br>}
 
@@ -78,6 +78,14 @@ end
 
 Note over R: Add email_details<br>to userData
 
-R-->>-U: 
+alt: if no 2fa
+
+  R-->>U: Redirect /return/setup/success
+
+else: 2fa
+
+ R-->>-U: Redirect /return/setup/mobile
+
+end
 
 Note over U: --> Use mobile?
