@@ -1,10 +1,23 @@
 # Form Builder repositories
 
+- [Specifications and components](#specifications-and-components)
+- [Editor](#editor)
+- [Publisher](#publisher)
+- [Runner](#runner)
+  - [Microservice clients](#microservice-clients)
+- Platform apps
+  - [User Datastore](#user-datastore)
+  - [User Filestore](#user-filestore)
+  - [Submitter](#submitter)
+- [MoJ Cloud Platform](#moj-cloud-platform)
+- [Utitlies](#utilities)
+- [Form repos](#form-repos)
+
 ## Specifications and components
 
 ### [fb-specification](https://github.com/ministryofjustice/fb-specification)
 
-Form Builder JSON Schema Specifications
+Form Builder JSON Schema specification tools
 
 uses
 
@@ -17,6 +30,7 @@ Form Builder core component schemas and associated nunjucks macros
 
 uses
 
+- govuk_frontend
 - fb-specification
 
 <!--
@@ -90,6 +104,14 @@ uses
 
 - fb-jwt-client-node
 
+### [fb-user-filestore-client-node](https://github.com/ministryofjustice/fb-user-filestore-client-node)
+
+User Filestore client
+
+uses
+
+- fb-jwt-client-node
+
 ### [fb-submitter-client-node](https://github.com/ministryofjustice/fb-submitter-client-node)
 
 Submitter client
@@ -107,21 +129,37 @@ Base client for making JSON Web Token-backed requests
 
 ### [fb-user-datastore](https://github.com/ministryofjustice/fb-user-datastore)
 
-Stores encrypted data entered by users on the Runner servces. Provides a simple
-Get / Post JSON API to achieve that.
+Stores encrypted data entered by users on the Runner forms.
+
+Provides a simple GET/POST JSON API to achieve that.
+
+
+## User Filestore
+
+### [fb-user-filestore](https://github.com/ministryofjustice/fb-user-filestore)
+
+Stores encrypted files uploaded by users to the Runner forms.
+
+Provides a simple GET/POST JSON API to achieve that.
 
 
 ## Submitter
 
 ### [fb-submitter](https://github.com/ministryofjustice/fb-submitter)
 
-Once a user on a Runner service has completed their journey, clicking the final Submit button will result in the service sending a request to the Submitter - which asynchronously retrieves the user's information and sends it to where it needs to go. Provides a simple Get / Post JSON API to achieve that.
+Once a user on a Runner service has completed their journey, clicking the final Submit button will result in the service sending a request to the Submitter - which asynchronously retrieves the user's information and sends it to where it needs to go.
 
-## Cloud Platform Environments configuration
+Provides a simple GET/POST JSON API to achieve that.
+
+## MoJ Cloud Platform
+
+### [cloud-platform-environments](https://github.com/ministryofjustice/cloud-platform-environments)
+
+Cloud Platform Environments k8s and terraform configuration files
 
 ### [fb-cloud-platform-environments](https://github.com/ministryofjustice/fb-cloud-platform-environments)
 
-Generate Cloud Platform Environments k8s and terraform config for Form Builder namespaces
+Generates Cloud Platform Environments k8s and terraform config for Form Builder namespaces
 
 ## Utilities
 
@@ -160,7 +198,7 @@ uses
 Standard eslint config for Form Builder projects
 
 
-## Service repos
+## Form repos
 
 ### [fb-example-service](https://github.com/ministryofjustice/fb-example-service)
 
