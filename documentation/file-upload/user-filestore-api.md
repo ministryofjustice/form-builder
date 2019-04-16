@@ -1,4 +1,4 @@
-# User Filestore
+# User Filestore API
 
 Preface
 
@@ -69,13 +69,15 @@ Requests should be checked for the presence of `encrypted_user_id_and_token` (as
 
 ```json
 {
-  "iat": "{timestamp}",
-  "encrypted_user_id_and_token": "{userId+userToken encrypted via AES-256 with the serviceToken as the key}",
-  "file": "{file as binary data}",
+  "iat": "<integer> unix_timestamp",
+  "encrypted_user_id_and_token": "<encryped_string> userId+userToken encrypted via AES-256 with the serviceToken as the key",
+  "file": "<binary>",
   "policy": {
-    "allowed_types": [...],
-    "max_size": {max_size bytes},
-    "expires": "{duration}"
+    "allowed_types": [
+      "<string> mediatype"
+    ],
+    "max_size": "<integer> bytes",
+    "expires": "<integer> days"
   }
 }
 ```
@@ -125,9 +127,9 @@ Requests should be checked for the presence of `encrypted_user_id_and_token` (as
 ```json
 {
   "url": "/service/{service_slug}/{user_id}/{fingerprint}",
-  "size": {file_size bytes},
-  "type": "{file_type}",
-  "date": "{unix_timestamp}"
+  "size": "<integer>(bytes)",
+  "type": "<string>(mediatype)",
+  "date": "<integer>(unix_timestamp)"
 }
 ```
 
@@ -172,28 +174,3 @@ This information is stored in the User Datastore and is sent to the Submitter to
 ```
 
 [![User Filestore sequence](images/user-filestore--retrieve.png)](images/user-filestore--retrieve.svg)
-
-<!--
-## Delete file
-
-`DELETE /service/{service_slug}/{user_id}/{fingerprint}`
-
-`encrypted_user_id_and_token` must be sent as an x-header.
-
-###  A. As per "Check request correctly signed and meets requirements"
-
-###  B. Delete file
-
-- Create S3 key
-- Delete file
-  - Error if file cannot be deleted
-    - code: `503`
-    - name: `unavailable.file-deletion-failed`
-    - [service_code]
-    - [message] (any additional info from S3 request)
-
-### C. Return status code `200`
--->
-
-
-
