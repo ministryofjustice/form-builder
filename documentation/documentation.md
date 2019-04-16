@@ -1,9 +1,16 @@
 # Documentation
 
+## Platform
+
+- [Platform overview](platform/platform.md)
+
 ## Features
 
-- [Save and return](save-and-return/save-and-return.md)
+- [Publishing forms](publisher/publisher.md)
+- [Storing user data](user-data/user-data.md)
+- [Submitting user data](submitter/submitter.md)
 - [File upload](file-upload/file-upload.md)
+- [Save and return](save-and-return/save-and-return.md)
 
 ## Misc
 
