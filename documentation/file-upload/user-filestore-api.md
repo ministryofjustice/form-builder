@@ -167,10 +167,6 @@ This information is stored in the User Datastore and is sent to the Submitter to
 
 ### C. Return file
 
-```json
-{
-  "file": "{file as binary data}",
-}
-```
+Return file as body of repsonse
 
 [![User Filestore sequence](images/user-filestore--retrieve.png)](images/user-filestore--retrieve.svg)
