@@ -1,16 +1,36 @@
+#!/usr/bin/env node
+
 const util = require('util')
 const path = require('path')
 const fs = require('fs')
-const child_process = require('child_process')
+const childProcess = require('child_process')
 
-const exec = util.promisify(child_process.exec)
-const readdir = util.promisify(fs.readdir)
+const exec = util.promisify(childProcess.exec)
 const readFile = util.promisify(fs.readFile)
 const writeFile = util.promisify(fs.writeFile)
 
 const glob = require('glob-promise')
 
 const cssFile = './bin/styles/mermaid-sequence.css'
+
+const checkGenerationTime = (source, generated) => {
+  const sourceStat = fs.statSync(source)
+  const generatedStats = generated.map(genPath => {
+    try {
+      return fs.statSync(genPath)
+    } catch (e) {
+      return null
+    }
+  })
+    .filter(genStat => {
+      if (genStat === null) {
+        return false
+      }
+      return genStat.mtime >= sourceStat.mtime
+    })
+
+  return !!generatedStats.length
+}
 
 const generateMermaidImages = async (dir) => {
   const cssFileContents = fs.readFileSync(cssFile).toString()
@@ -23,7 +43,6 @@ const generateMermaidImages = async (dir) => {
   const mmdFiles = await glob(`${dir}/**/*.mmd`)
 
   mmdFiles.forEach(filePath => {
-    process.stdout.write(`Processing ${filePath}\n`)
     readFile(filePath)
       .then(fileContents => {
         const settings = {
@@ -40,6 +59,12 @@ const generateMermaidImages = async (dir) => {
         })
         const pngPath = filePath.replace(/\.mmd$/, '.png')
         const svgPath = filePath.replace(/\.mmd$/, '.svg')
+        const alreadyGenerated = checkGenerationTime(filePath, [pngPath, svgPath])
+        if (alreadyGenerated) {
+          return
+        }
+        process.stdout.write(`Processing ${filePath}\n`)
+
         exec(`mmdc -i ${filePath} -o ${pngPath} --cssFile ${cssFile} --height ${settings.height} --width ${settings.width}`)
         exec(`mmdc -i ${filePath} -o ${svgPath} --cssFile ${cssFile} --height ${settings.height} --width ${settings.width}`)
           .then(() => {
@@ -56,8 +81,25 @@ const generateMermaidImages = async (dir) => {
   })
 }
 
+const generateGraphvizImages = async (dir) => {
+  const dotFiles = await glob(`${dir}/**/*.dot`)
+  dotFiles.forEach(filePath => {
+    const pngPath = filePath.replace(/\.dot$/, '.png')
+    const svgPath = filePath.replace(/\.dot$/, '.svg')
+    const alreadyGenerated = checkGenerationTime(filePath, [pngPath, svgPath])
+    if (alreadyGenerated) {
+      return
+    }
+    process.stdout.write(`Processing ${filePath}\n`)
+
+    exec(`dot -Tpng ${filePath} -o ${pngPath}`)
+    exec(`dot -Tsvg ${filePath} -o ${svgPath}`)
+  })
+}
+
 const generateImages = async () => {
   await generateMermaidImages(path.resolve(__dirname, '..', 'documentation'))
+  await generateGraphvizImages(path.resolve(__dirname, '..', 'documentation'))
 }
 
 generateImages()

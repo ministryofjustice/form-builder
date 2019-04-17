@@ -1,0 +1,22 @@
+digraph {
+  newrank=true
+  size = "40,20"
+  graph [pad="0.5", ranksep="1", nodesep="1"]
+  node [fontname = "helvetica", width=4, height=1.5]
+
+  node [shape = box, fillcolor = white, fontcolor=black, width=4];
+  findData [label = "Determine data sources"]
+  loadData [label = "Load data"]
+  expandRefs [label = "Expand refs / inherited values"]
+  findDefs [label = "Determine definition sources"]
+  loadDefs [label = "Load defintions"]
+  modifyData [label = "Modify"]
+  propagateModels [label = "Propagate models"]
+  bubbleDepends [label = "Bubble up dependencies"]
+  addFlow [label = "Add next/previous"]
+
+  node [shape = diamond, style = filled, fillcolor = gray90, fontcolor=black, width=1.5];
+
+  findData -> loadData -> expandRefs -> findDefs -> loadDefs -> modifyData -> propagateModels -> bubbleDepends -> addFlow;
+
+}

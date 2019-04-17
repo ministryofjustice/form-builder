@@ -7,3 +7,5 @@ Jumping off point for Ministry of Justice’s Form Builder
 - [Architectual decision records](decisions/decisions.md)
 - [Repositories](repositories.md)
 - [Forms built with Form Builder](forms.md)
+
+- [Contributing](contributing.md)

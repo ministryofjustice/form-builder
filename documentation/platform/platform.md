@@ -7,5 +7,5 @@
 
 ## Source files
 
-- [Platform environment overview (Axure)](fb-platform-environment-overview.rp)
-- [Platform architecture (Axure)](fb-platform-architecture.rp)
+- [Platform environment overview (Axure)](files/fb-platform-environment-overview.rp)
+- [Platform architecture (Axure)](files/fb-platform-architecture.rp)

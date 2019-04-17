@@ -6,7 +6,9 @@
 
 ## Features
 
+- [Building forms](building-forms/building-forms.md)
 - [Publishing forms](publisher/publisher.md)
+- [Capturing user data](runner/runner.md)
 - [Storing user data](user-data/user-data.md)
 - [Submitting user data](submitter/submitter.md)
 - [File upload](file-upload/file-upload.md)
@@ -15,7 +17,7 @@
 ## Misc
 
 - [Signing requests with JWT](request-signing-with-jwt.md)
-- [Error responses](error-responses.md)
+- [Sending error responses](error-responses.md)
 - [Logging](logging.md)
 
 

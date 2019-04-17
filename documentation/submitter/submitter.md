@@ -1,5 +1,5 @@
 # Submitting user data
 
-User data is submitted using the Submitter app
+The [Submitter](https://github.com/ministryofjustice/fb-submitter) app processes the user’s input and sends the output to the destinations specified by the forms’s data.
 
 - [Submitter docs on Google Drive](https://drive.google.com/drive/folders/1pJ0MqX-nANfTbYsbNlhVPZddbtAD8oAw)

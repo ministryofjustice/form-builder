@@ -1,4 +1,17 @@
 #!/usr/bin/env node
+
+/* eslint-disable no-unused-vars */
+const args = require('yargs')
+  .version('1.0.0')
+  .help()
+  .usage('$0', `
+  Generate table of contents for ADRs
+  
+  Output is written to decisions/decisions.md
+  `)
+  .argv
+/* eslint-enable no-unused-vars */
+
 const path = require('path')
 const fs = require('fs')
 const {promisify} = require('util')
@@ -15,7 +28,9 @@ const statuses = {
   Superseded: '⌛️'
 }
 
+// path to ADRs
 const decisionDir = path.resolve(__dirname, '..', 'decisions')
+// path to intro/outro templates
 const adrTemplateDir = path.resolve(__dirname, 'adr')
 
 const getTOCFiles = async (tocLines) => {
@@ -23,9 +38,9 @@ const getTOCFiles = async (tocLines) => {
     const fileName = tocLine.replace(/.*\(([^)]+?)\)/, '$1')
     return readFile(path.resolve(decisionDir, fileName))
   })
-  const resolvedPromises = await Promise.all(tocFiles).then(result => {
-    return result.map(x => {
-      let fileContents = x.toString()
+  const resolvedPromises = await Promise.all(tocFiles).then(files => {
+    return files.map(file => {
+      let fileContents = file.toString()
       fileContents = fileContents
         .replace(/\s+## Context[\s\S]+/, '')
         .replace(/[\s\S]+Status\s+/, '')
@@ -35,9 +50,10 @@ const getTOCFiles = async (tocLines) => {
         let match = lines[index].match(/^(\w+ed)\b.*/)
         if (match) {
           status = match[1]
+          break
         }
       }
-      return statuses[status]
+      return status
     })
   })
   return resolvedPromises
@@ -52,7 +68,10 @@ const generateTOC = async () => {
   const tocStatuses = await getTOCFiles(tocLines)
 
   toc = tocLines.map((tocLine, index) => {
-    return tocLine.replace(/^\* \[/, `* ${tocStatuses[index]} [`)
+    const status = tocStatuses[index]
+    let updatedLine = tocLine.replace(/^\* \[/, `* ${statuses[status]} [`)
+    updatedLine += ` (${status.toLowerCase()})`
+    return updatedLine
   }).join('\n')
 
   const intro = await readFile(path.resolve(adrTemplateDir, 'INTRO.md'))
