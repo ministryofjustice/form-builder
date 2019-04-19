@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+process.stdout.write('\n')
+
 const args = require('yargs')
   .version('1.0.0')
   .option('debug', {
@@ -59,6 +61,7 @@ const debugLog = (msg) => {
 * Requested target path for output
 *
 * @return {boolean}
+*
 **/
 const checkGenerationRequired = async (source, target) => {
   const sourceStat = await stat(source)
@@ -86,6 +89,7 @@ const checkGenerationRequired = async (source, target) => {
 * Path for output file
 *
 * @return {undefined}
+*
 **/
 const execImageCommand = async (cmd, inputPath, outputPath) => {
   const generationRequired = await checkGenerationRequired(inputPath, outputPath)
@@ -115,6 +119,7 @@ const execImageCommand = async (cmd, inputPath, outputPath) => {
 * Settings to pass to mermaid
 *
 * @return {undefined}
+*
 **/
 const execMermaid = async (inputPath, outputPath, settings = {}) => {
   const settingsStr = Object.keys(settings)
@@ -138,6 +143,7 @@ const execMermaid = async (inputPath, outputPath, settings = {}) => {
 * Output format
 *
 * @return {undefined}
+*
 **/
 const execDot = async (inputPath, outputPath, format) => {
   const dotCommand = `dot -T${format} ${inputPath} -o ${outputPath}`
@@ -156,6 +162,7 @@ const execDot = async (inputPath, outputPath, format) => {
 * Path to css file to use
 *
 * @return {undefined}
+*
 **/
 const generateMermaidImages = async (dir, cssFile) => {
   // create style block to inject into svg files
@@ -228,6 +235,7 @@ const generateMermaidImages = async (dir, cssFile) => {
 * Path to css file to use
 *
 * @return {undefined}
+*
 **/
 const generateDotImages = async (dir) => {
   const dotFiles = await glob(`${dir}/**/*.dot`)

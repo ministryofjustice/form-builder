@@ -8,10 +8,10 @@ digraph {
   graph [pad="0.5", ranksep="1", nodesep="1"]
   node [fontname = "helvetica", width=4, height=1.5]
 
-  node [shape = box, fillcolor = white, fontcolor=black, width=4];
-  handleUrl [label = "Match URL"];
-  clonePageInstance [label = "Clone page instance"];
-  dynamicProps [label = "Determine mode and dynamic props"];
+  node [shape = box, fillcolor = white, fontcolor=black, width=4]
+  handleUrl [label = "Match URL"]
+  clonePageInstance [label = "Clone page instance"]
+  dynamicProps [label = "Determine mode and dynamic props"]
   handleAddDelete [label = "Handle any Add/Delete action"]
   updatePageInstance [label = "Update page instance with dynamic props"]
   evaluateRequiredIf [label = "Evaluate components with requiredIf"]
@@ -29,7 +29,7 @@ digraph {
   goNext [label = "Determine next page"]
   goNextForced [label = "Determine next page (forced)"]
 
-  node [shape = diamond, style = filled, fillcolor = gray90, fontcolor=black, width=1.5];
+  node [shape = diamond, style = filled, fillcolor = gray90, fontcolor=black, width=1.5]
   handleAddDeleteRequired [label = "POST?"]
   checkDepends [label = "Should page be shown?"]
   ifPostHandling [label = "POST?"]
@@ -66,60 +66,60 @@ digraph {
   ifRedirect -> nextPage [xlabel = "yes" ]
 
   subgraph cluster_starter {
-    style=invis;
-      handleUrl;
-      clonePageInstance;
-      dynamicProps;
-      handleAddDeleteRequired;
-      updatePageInstance;
-      runPageComponentCode;
-      checkDepends;
-      goNextForced;
-      ifRedirectForced;
-      noNextPage;
+    style=invis
+      handleUrl
+      clonePageInstance
+      dynamicProps
+      handleAddDeleteRequired
+      updatePageInstance
+      runPageComponentCode
+      checkDepends
+      goNextForced
+      ifRedirectForced
+      noNextPage
   }
 
     subgraph cluster_gosh {
-    style=invis;
-      ifPostHandling;
-      ifRedirect;
-      nextPage;
+    style=invis
+      ifPostHandling
+      ifRedirect
+      nextPage
   }
 
   subgraph cluster_banana {
-    style=invis;
-      evaluateRequiredIf;
-      validate;
-      ifErrors;
-      updateValues;
-      goNext;
-      removeHiddenComponents; 
-      addTriggersReveals;
-      substitution;
-      render;
+    style=invis
+      evaluateRequiredIf
+      validate
+      ifErrors
+      updateValues
+      goNext
+      removeHiddenComponents
+      addTriggersReveals
+      substitution
+      render
   }
 
   {
-    rank=same;
-    goNextForced;
-    validate;
+    rank=same
+    goNextForced
+    validate
   }
   {
-    rank=same;
-    checkDepends;
-    ifPostHandling;
-    evaluateRequiredIf;
+    rank=same
+    checkDepends
+    ifPostHandling
+    evaluateRequiredIf
   }
   {
-    rank=same;
-    goNext;
-    ifRedirect;
-    ifRedirectForced;
+    rank=same
+    goNext
+    ifRedirect
+    ifRedirectForced
   }
   {
-    rank = same;
-    render;
-    nextPage;
-    noNextPage;
+    rank=same
+    render
+    nextPage
+    noNextPage
   }
 }
