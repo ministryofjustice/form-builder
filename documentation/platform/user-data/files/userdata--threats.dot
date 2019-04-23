@@ -1,0 +1,95 @@
+digraph switches {
+  rankdir=LR
+  newrank=true;
+  size = "20,10";
+  splines=ortho;
+  graph [pad="0.5", ranksep="1", nodesep="1"]
+  node [fontname = "helvetica", width=4, height=1.5]
+  node [shape = box, fillcolor = white, fontcolor=black, width=4];
+  
+  user [ label="User" ];
+  ingress [ label="Ingress" ];
+  form [ label="Form" ];
+  var [ label="Env var\nSERVICE_TOKEN" ];
+  data_api [ label="Datastore API"; xlabel="Verify digest"];
+  data_db [ label="Datastore RDS"];
+  token_cache [ label="Local cache\nof tokens"; xlabel="Refresh on demand in\nevent of cache miss\nor digest mismatch" ];
+  secret [ label="Kubernetes secret\n{service}-token (PSK)"];
+  publisher_workers [ label="Workers"];
+  publisher_db [ label="Publisher DB"];
+  publisher_web [ label="Web app"];
+  publisher_ingress [ label="Ingress"];
+  developer [ label="Form developer"];
+  
+  subgraph cluster_b {
+    label = "Forms namespace";
+    color=grey;
+    ingress;
+    secret;
+    form;
+    var;
+  }
+  
+  subgraph cluster_d {
+    color=white
+    subgraph cluster_a {
+      label = "Publisher namespace";
+      color=grey
+      publisher_db;
+      publisher_web;
+      publisher_ingress;
+      publisher_workers;
+    }
+    subgraph cluster_c {
+      label = "Platform namespace";
+      color=grey
+      data_api;
+      data_db;
+      token_cache;
+    }
+    developer;
+  }
+  
+  {
+    rank=same;
+    publisher_workers;
+    publisher_db;
+    publisher_web;
+    publisher_ingress;
+    var;
+    secret;
+  }
+  
+  {
+    rank=same;
+    data_api;
+    token_cache;
+  }
+  
+  user -> ingress [label="Cookie: \l userId \l userToken \l userDigest \l"]
+
+  ingress -> form
+  
+  form -> data_api [xlabel="serviceSlug \l userId \l payload: user data \l AES-encrypted \l with userToken \l digest: hash of payload \l + service secret \l"]
+
+  data_api -> data_db [dir="both"; label="serviceSlug \l userID \l payload \l"]
+
+  data_api -> token_cache
+  
+  var -> form
+
+  secret -> var
+
+  secret -> token_cache [dir="both"]
+  
+  publisher_workers -> secret
+
+  publisher_db -> publisher_workers [dir="both"]
+
+  publisher_web -> publisher_db
+
+  publisher_ingress -> publisher_web
+
+  developer -> publisher_ingress
+
+}
