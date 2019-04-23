@@ -9,7 +9,7 @@ This document summarises requirements for the User Data Store component & knock-
 
 ## System Context
 
-TODO: Insert image
+[![User Datastore - architecture](images/userdata--architecture.svg)](images/images/userdata--architecture.png)
 
 ## API
 

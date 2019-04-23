@@ -267,8 +267,8 @@ const generateMermaidImages = async (dir, outputDir, cssFile) => {
       }
     })
 
-    const pngPath = filePath.replace(/mmd$/, 'png')
-    const svgPath = filePath.replace(/mmd$/, 'svg')
+    const pngPath = getOutputLocation('mmd', 'png', filePath, outputDir)
+    const svgPath = getOutputLocation('mmd', 'svg', filePath, outputDir)
 
     execMermaid(filePath, pngPath, settings)
 
