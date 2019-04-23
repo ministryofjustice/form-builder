@@ -37,6 +37,8 @@ Apps within platform apps are shared by all the forms in the corresponding servi
 
 [![Form Builder environments overview](images/fb-platform-environment-overview.png)](images/fb-platform-environment-overview.png)
 
+([Source file (Axure)](files/fb-platform-environment-overview.rp))
+
 ### Per Branch? Per commit?
 
 TODO: fill in
