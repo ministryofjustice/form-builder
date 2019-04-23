@@ -1,27 +1,26 @@
 # Form Builder documentation
 
+- [Building](building/building.md)
+
+  Creating form data
+
+- [Publishing](publishing/publishing.md)
+
+  Deploying and managing forms
+
+- [Running](running/running.md)
+
+  Rendering forms and collecting data entered by users
+
+- [Submitting](submitting/submitting.md)
+
+  Sending users’ data to final destination
+
 ## Platform
 
 - [Platform overview](platform/platform.md)
 
-## Features
-
-- [Building forms](building-forms/building-forms.md)
-- [Publishing forms](publisher/publisher.md)
-- [Capturing user data](runner/runner.md)
-- [Storing user data](user-data/user-data.md)
-- [Submitting user data](submitter/submitter.md)
-- [File upload](file-upload/file-upload.md)
-- [Save and return](save-and-return/save-and-return.md)
 
 ## Misc
 
-- [Signing requests with JWT](request-signing-with-jwt.md)
-- [Sending error responses](error-responses.md)
-- [Logging](logging.md)
-
-
-
-## Migrating docs
-
-[Previous technical documentation overview - Google Docs](https://docs.google.com/document/d/1-FyGx0OzobbQjNjA-7Y5Gp-z_9e4FX1SFpUUt-ax4bE)
+- [Concepts and glossary](glossary)

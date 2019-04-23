@@ -1,0 +1,92 @@
+digraph {
+  newrank=true;
+  size = "20,10";
+  #splines=ortho;
+  graph [pad="0.5", ranksep="1", nodesep="1"]
+  node [fontname = "helvetica", width=4, height=1.5]
+
+  node [shape = box, fillcolor = white, fontcolor=black, width=4];
+  setsTrue
+  setsFalse
+  setsNegated
+
+  node [shape = ellipse];
+  condition
+  #definition
+  #text
+  #number
+  #boolean
+  returnValue
+
+  node [shape=trapezium]
+  #allOf
+  #anyOf
+  #oneOf
+
+  node [shape = diamond, style = filled, fillcolor = gray90, fontcolor=black, width=1.5];
+  whatType
+  allTrue
+  anyTrue
+  oneTrue
+  isTrue
+  isNegated
+
+  condition -> whatType
+  whatType -> isTrue [label = "defined" ]
+  whatType -> isTrue [label = "text" ]
+  whatType -> isTrue [label = "number" ]
+  whatType -> isTrue [label = "boolean" ]
+  #whatType -> allOf
+  #whatType -> anyOf
+  #whatType -> oneOf
+  #allOf -> allOf [label = "condition" ]
+  #anyOf -> anyOf [label = "condition" ]
+  #oneOf -> oneOf [label = "condition" ]
+  #allOf -> allTrue
+  #anyOf -> anyTrue
+  #oneOf -> oneTrue
+
+  whatType -> allTrue [label = "allOf" ]
+  whatType -> anyTrue [label = "anyOf" ]
+  whatType -> oneTrue [label = "oneOf" ]
+  allTrue -> allTrue [label = <loop<br/>conditions> ]
+  anyTrue -> anyTrue [label = <loop<br/>conditions> ]
+  oneTrue -> oneTrue [label = <loop<br/>conditions> ]
+  #whatType -> allOf [label = "allOf" ]
+  #whatType -> anyOf [label = "anyOf" ]
+  #whatType -> oneOf [label = "oneOf" ]
+  #allOf -> allOf [label = "conditions" ]
+  #anyOf -> anyOf [label = "conditions" ]
+  #oneOf -> oneOf [label = "conditions" ]
+  #allOf -> allTrue
+  #anyOf -> anyTrue
+  #oneOf -> oneTrue
+  isTrue -> setsTrue
+  isTrue -> setsFalse
+  allTrue -> setsTrue
+  allTrue -> setsFalse
+  anyTrue -> setsTrue
+  anyTrue -> setsFalse
+  oneTrue -> setsTrue
+  oneTrue -> setsFalse
+
+  setsTrue -> isNegated
+  setsFalse -> isNegated
+  isNegated -> setsNegated
+  setsNegated -> returnValue
+  isNegated -> returnValue
+
+  subgraph cluster_a {
+    style=invis;
+    condition;
+    whatType;
+    isTrue;
+    setsTrue;
+  }
+  subgraph cluster_b {
+    style=invis;
+    anyTrue;
+    setsFalse;
+  }
+  {rank=same; allTrue; anyTrue; oneTrue; isTrue;}
+}
