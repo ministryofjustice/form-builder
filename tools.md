@@ -29,9 +29,7 @@ Additionally, the following helper scripts can be found in `./bin`
   Source files are located in `./files` and output to `./images`
 
 <details>
-<summary>
-### Image format guides
-</summary>
+<summary>Image format guides</summary>
 
 #### Mermaid files (.mmd)
 - [Mermaid documentation](https://mermaidjs.github.io/)
