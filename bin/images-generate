@@ -24,6 +24,7 @@ const path = require('path')
 const fs = require('fs')
 const childProcess = require('child_process')
 const glob = require('glob-promise')
+const mkdirp = require('mkdirp')
 
 const exec = util.promisify(childProcess.exec)
 const readFile = util.promisify(fs.readFile)
@@ -47,6 +48,38 @@ const debugLog = (msg) => {
   if (debug) {
     log(msg)
   }
+}
+
+/**
+* Determine path to generate image at
+*
+* @param {string} ext
+* Input path extension
+*
+* @param {string} format
+* Output format
+*
+* @param {string} inputPath
+* Path to input file
+*
+* @param {array} outputDir
+* Path to output directory
+*
+* @return {string}
+* Path for output file
+*
+**/
+const getOutputLocation = (ext, format, inputPath, outputDir = []) => {
+  const extRegex = new RegExp(`${ext}$`)
+  const outputBaseName = path.basename(inputPath).replace(extRegex, format)
+  const outputDirName = path.join(path.dirname(inputPath), ...outputDir)
+  try {
+    mkdirp.sync(outputDirName)
+  } catch (e) {
+    log(`Could not create output directory - ${outputDirName}`)
+    process.exit(1)
+  }
+  return path.join(outputDirName, outputBaseName)
 }
 
 /**
@@ -178,13 +211,16 @@ const execPuml = async (inputPath, outputPath, format) => {
 * @param {string} dir
 * Path to look for .mmd files in
 *
+* @param {array} outputDir
+* Path to output directory to use
+*
 * @param {string} cssFile
 * Path to css file to use
 *
 * @return {undefined}
 *
 **/
-const generateMermaidImages = async (dir, cssFile) => {
+const generateMermaidImages = async (dir, outputDir, cssFile) => {
   try {
     await exec('which mmdc')
   } catch (e) {
@@ -258,13 +294,13 @@ const generateMermaidImages = async (dir, cssFile) => {
 * @param {string} dir
 * Path to look for .mmd files in
 *
-* @param {string} cssFile
-* Path to css file to use
+* @param {array} outputDir
+* Path to output directory to use
 *
 * @return {undefined}
 *
 **/
-const generateDotImages = async (dir) => {
+const generateDotImages = async (dir, outputDir) => {
   try {
     await exec('which dot')
   } catch (e) {
@@ -278,7 +314,7 @@ const generateDotImages = async (dir) => {
 
     const formats = ['png', 'svg']
     formats.forEach(format => {
-      const formatPath = filePath.replace(/dot$/, format)
+      const formatPath = getOutputLocation('dot', format, filePath, outputDir)
       execDot(filePath, formatPath, format)
     })
   })
@@ -292,13 +328,13 @@ const generateDotImages = async (dir) => {
 * @param {string} dir
 * Path to look for .mmd files in
 *
-* @param {string} cssFile
-* Path to css file to use
+* @param {array} outputDir
+* Path to output directory to use
 *
 * @return {undefined}
 *
 **/
-const generatePlantUMLImages = async (dir) => {
+const generatePlantUMLImages = async (dir, outputDir) => {
   try {
     await exec('which puml')
   } catch (e) {
@@ -312,7 +348,7 @@ const generatePlantUMLImages = async (dir) => {
 
     const formats = ['png', 'svg']
     formats.forEach(format => {
-      const formatPath = filePath.replace(/puml$/, format)
+      const formatPath = getOutputLocation('puml', format, filePath, outputDir)
       execPuml(filePath, formatPath, format)
     })
   })
@@ -321,9 +357,10 @@ const generatePlantUMLImages = async (dir) => {
 // Generate all the images
 const generateImages = async () => {
   const documentationDir = path.resolve(__dirname, '..', 'documentation')
-  generateMermaidImages(documentationDir, cssFile)
-  generateDotImages(documentationDir)
-  generatePlantUMLImages(documentationDir)
+  const outputDir = ['..', 'images']
+  generateMermaidImages(documentationDir, outputDir, cssFile)
+  generateDotImages(documentationDir, outputDir)
+  generatePlantUMLImages(documentationDir, outputDir)
 }
 
 generateImages()

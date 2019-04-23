@@ -24,6 +24,4 @@ Additionally, the following helper scripts can be found in `./bin`
 
   ### Source files and images
 
-  ./files
-
-  ./images
+  Source files are located in `./files` and output to `./images`

@@ -20,6 +20,7 @@
     "@ministryofjustice/eslint-config-fb": "^1.0.5",
     "glob-promise": "^3.4.0",
     "mermaid.cli": "^0.5.1",
+    "mkdirp": "^0.5.1",
     "yargs": "^13.2.2"
   }
 }
