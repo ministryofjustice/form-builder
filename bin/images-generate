@@ -151,6 +151,26 @@ const execDot = async (inputPath, outputPath, format) => {
 }
 
 /**
+* CLI helper for puml
+*
+* @param {string} inputPath
+* Path to input file
+*
+* @param {string} outputPath
+* Path for output file
+*
+* @param {string} format
+* Output format
+*
+* @return {undefined}
+*
+**/
+const execPuml = async (inputPath, outputPath, format) => {
+  const pumlCommand = `puml generate ${inputPath} -o ${outputPath} --${format}`
+  await execImageCommand(pumlCommand, inputPath, outputPath)
+}
+
+/**
 * Generate images from mermaid files (.mmd)
 *
 * Writes output to same location
@@ -165,6 +185,13 @@ const execDot = async (inputPath, outputPath, format) => {
 *
 **/
 const generateMermaidImages = async (dir, cssFile) => {
+  try {
+    await exec('which mmdc')
+  } catch (e) {
+    debugLog('Skipping mermaid images as mmdc not installed')
+    return
+  }
+
   // create style block to inject into svg files
   let cssFileContents = ''
   if (cssFile) {
@@ -238,6 +265,13 @@ const generateMermaidImages = async (dir, cssFile) => {
 *
 **/
 const generateDotImages = async (dir) => {
+  try {
+    await exec('which dot')
+  } catch (e) {
+    debugLog('Skipping dot images as dot not installed')
+    return
+  }
+
   const dotFiles = await glob(`${dir}/**/*.dot`)
   dotFiles.forEach(filePath => {
     debugLog(`Processing ${filePath}`)
@@ -250,10 +284,46 @@ const generateDotImages = async (dir) => {
   })
 }
 
+/**
+* Generate images from Plant UML files (.puml)
+*
+* Writes output to same location
+*
+* @param {string} dir
+* Path to look for .mmd files in
+*
+* @param {string} cssFile
+* Path to css file to use
+*
+* @return {undefined}
+*
+**/
+const generatePlantUMLImages = async (dir) => {
+  try {
+    await exec('which puml')
+  } catch (e) {
+    debugLog('Skipping PlantUML files as puml not installed')
+    return
+  }
+
+  const pumlFiles = await glob(`${dir}/**/*.puml`)
+  pumlFiles.forEach(filePath => {
+    debugLog(`Processing ${filePath}`)
+
+    const formats = ['png', 'svg']
+    formats.forEach(format => {
+      const formatPath = filePath.replace(/puml$/, format)
+      execPuml(filePath, formatPath, format)
+    })
+  })
+}
+
 // Generate all the images
 const generateImages = async () => {
-  generateMermaidImages(path.resolve(__dirname, '..', 'documentation'), cssFile)
-  generateDotImages(path.resolve(__dirname, '..', 'documentation'))
+  const documentationDir = path.resolve(__dirname, '..', 'documentation')
+  generateMermaidImages(documentationDir, cssFile)
+  generateDotImages(documentationDir)
+  generatePlantUMLImages(documentationDir)
 }
 
 generateImages()

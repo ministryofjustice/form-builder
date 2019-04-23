@@ -2,6 +2,10 @@
 
 Once a user’s data has been collected and the user has confirmed that the data is correct, urls representing the required output of the data and any uploaded files are sent to the submitter api
 
+## Submitting overview
+
+[Submission overview diagram](submitting--overview.md)
+
 
 ## Default output
 
