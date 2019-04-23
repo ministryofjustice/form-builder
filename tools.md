@@ -28,18 +28,33 @@ Additionally, the following helper scripts can be found in `./bin`
 
   Source files are located in `./files` and output to `./images`
 
-### Online image editors
+<details>
+<summary>
+### Image format guides
+</summary>
 
 #### Mermaid files (.mmd)
 - [Mermaid documentation](https://mermaidjs.github.io/)
-- [Mermaid Live Editor](https://mermaidjs.github.io/mermaid-live-editor)
 
 #### Dot files (.dot)
 - [Graphviz documentation](https://graphviz.gitlab.io/documentation/)
-- [Graphviz it](http://graphviz.it)
 
 #### PlantUML files (.puml)
 - [PlantUML Guide](http://plantuml.com/guide)
+- [Planttext](https://www.planttext.com/)
+- [PlantUML Editor](https://plantuml-editor.kkeisuke.com)
+</details>
+
+### Online image editors
+
+#### Mermaid files (.mmd)
+
+- [Mermaid Live Editor](https://mermaidjs.github.io/mermaid-live-editor)
+
+#### Dot files (.dot)
+- [Graphviz it](http://graphviz.it)
+
+#### PlantUML files (.puml)
 - [Planttext](https://www.planttext.com/)
 - [PlantUML Editor](https://plantuml-editor.kkeisuke.com)
 
