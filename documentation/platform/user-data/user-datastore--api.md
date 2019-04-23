@@ -2,7 +2,7 @@
 
 ## Introduction
 
-Services written & deployed with FormBuilder require a component to store data submitted by their users in a secure way. We have agreed a suitable implementation with the Information Security team, discussed in detail in “Runner / User data store Threats & Mitigations”.
+Services written & deployed with FormBuilder require a component to store data submitted by their users in a secure way. We have agreed a suitable implementation with the Information Security team, discussed in detail in "Runner / User data store Threats & Mitigations".
 
 This document summarises requirements for the User Data Store component & knock-on implications for the other components affected - the Runner & Publisher. 
 
@@ -62,8 +62,8 @@ At the start of each request, the Runner must:
 
   ```json
   {
-    "timestamp": “(ISO8601-formatted datetime of last update)”,
-    "payload": “(user data encrypted with userToken)”
+    "timestamp": "(ISO8601-formatted datetime of last update)",
+    "payload": "(user data encrypted with userToken)"
   }
   ```
 
@@ -84,7 +84,7 @@ The body must be of the form:
 
 ```json
 {
-  "payload": “(encrypted data)”
+  "payload": "(encrypted data)"
 }
 ```
 
