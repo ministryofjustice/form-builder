@@ -23,4 +23,4 @@
 
 ## Misc
 
-- [Concepts and glossary](glossary)
+- [Concepts and glossary](glossary.md)
