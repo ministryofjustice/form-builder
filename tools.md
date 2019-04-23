@@ -41,9 +41,11 @@ Additionally, the following helper scripts can be found in `./bin`
 - [PlantUML Guide](http://plantuml.com/guide)
 - [Planttext](https://www.planttext.com/)
 - [PlantUML Editor](https://plantuml-editor.kkeisuke.com)
+
 </details>
 
-### Online image editors
+<details>
+<summary>Online image editors</summary> 
 
 #### Mermaid files (.mmd)
 
@@ -56,7 +58,10 @@ Additionally, the following helper scripts can be found in `./bin`
 - [Planttext](https://www.planttext.com/)
 - [PlantUML Editor](https://plantuml-editor.kkeisuke.com)
 
-### Installing CLI image tools
+</details>
+
+<details>
+<summary>Installing CLI image tools</summary>
 
 #### Mermaid files (.mmd)
 - `npm install -g mermaid.cli`  
@@ -71,4 +76,5 @@ Additionally, the following helper scripts can be found in `./bin`
 - or see [node-plantuml npm page](https://www.npmjs.com/package/node-plantuml)
 - Requires Java SDK
 - Optionally requires Graphviz for all diagram types
-  
+
+</details>
