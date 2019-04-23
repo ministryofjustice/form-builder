@@ -14,7 +14,7 @@
 
 - [Runner](../running/runner/runner.md)
 
-## Platform apps
+## Platform APIs
 
 - [Service Token Cache](service-token-cache.md)
 - [User Datastore](user-data/user-datastore--api.md)
