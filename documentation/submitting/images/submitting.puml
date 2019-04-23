@@ -31,8 +31,6 @@ activate Runner
 
 Note over Runner : Add output urls\n--> submission_details
 
-Note over Runner : [TODO: expand output url creation]
-
 |||
 
 Runner -> SubmitterAPI : POST /submission
