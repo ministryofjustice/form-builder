@@ -21,7 +21,9 @@ These components essentially map one-to-one to components described in the GOV.U
 - [Text](/component/text)
 - [Textarea](/component/textarea)
 
-NB. File upload is currently not supported.
+Implemented as an enhancement to components described in the GOV.UK Design System.
+
+- [File upload](/component/fileupload)
 
 
 ## Content
