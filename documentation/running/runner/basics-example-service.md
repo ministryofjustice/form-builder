@@ -10,7 +10,7 @@ The following files define a simple service that presents
 
 ## Service pages
 
-## Start page - `pageStartExample.json`
+### Start page - `pageStartExample.json`
 
 ![Start page](images/pageStart.png)
 
