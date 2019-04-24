@@ -1,0 +1,53 @@
+sequenceDiagram
+%% width:1200
+%% height:2400
+
+participant U as User
+participant R as Runner
+participant STC as Service Token Cache
+participant SW as Submitter Worker
+participant DS as User Data Store API
+participant FS as User File Store API
+participant VS as Virus Scanner
+participant FC as File Checks
+participant S3 as User File Store (S3)
+
+Note over U:User selects file <br>and submits
+
+U->>+R: post file
+
+Note over R: add service <br>expiration policy
+
+R->>+FS: post file
+
+FS->>+STC: get service token
+STC-->>-FS: return service token
+
+Note over FS: check JWT
+Note over FS: check presence of <br>user token/id digest
+Note over FS: check size/type
+
+FS->>+VS: post files[s]
+VS-->>-FS: return virus status
+
+loop Additional file checks
+
+  FS->>+FC:post files[s] + rules
+  FC-->>-FS:return check status
+
+end
+
+Note over FS:create s3 key
+Note over FS: encrypt file
+
+FS->>+S3:post files[s]
+S3-->>-FS:return storage details
+
+FS->>-R:return storage details
+
+Note over R: Update user data <br>with storage details
+
+R->>+DS:store data
+DS->>-R:return
+
+R->>-U:return response

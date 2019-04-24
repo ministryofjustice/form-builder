@@ -1,0 +1,53 @@
+sequenceDiagram
+
+participant U as User
+participant R as Runner
+participant DS as User Data Store API
+participant DB as User Data Store DB
+
+U->>+R: Send request
+
+alt if cookie
+
+  Note over R: Decrypt <br>user cookie with <br>SERVICE_SECRET
+  Note over R:Check that digest <br>matches user id <br>and token
+
+end
+
+alt if no valid id/token
+
+  Note over R: Create userId<br>UUID v4
+  Note over R: Create userToken<br>128 bytes hex
+  Note over R: Create userDigest<br>userId + userToken<br>sha256 hex
+  Note over R: Create digest bundle<br>{<br>userId,<br>userToken,<br>userDigest<br>}<br>encrypted via <br>AES256 with<br>SERVICE_SECRET
+
+  R->>+DS: POST /:service/:userId
+
+  Note right of R: { <br>"data": "" <br>}
+
+  DS->>+DB: Create record for userId
+  DB-->>-DS: 
+
+  DS-->>-R: 
+
+end
+
+R->>+DS: GET /:service/:userId
+DS-->>-R: Fetch user data
+
+Note over R: Decrypt data <br>with userToken
+Note over R: ...
+Note over R: Encrypt user data <br>with userToken
+
+R->>+DS: POST /:service/:userId
+
+Note right of R: { <br>"data": <br>"{encryptedData}" <br>}
+
+DS->>+DB: Update record for userId
+DB-->>-DS: 
+
+DS-->>-R: 
+
+Note right of U: Send digest bundle <br>cookie
+
+R-->>-U: Return response

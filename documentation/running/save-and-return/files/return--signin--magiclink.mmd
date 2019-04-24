@@ -1,0 +1,110 @@
+sequenceDiagram
+
+participant U as User
+
+participant R as Runner
+
+participant DS as User Datastore API
+
+participant DB as User Datastore DB
+
+U->>+R: GET /return/magiclink/:magiclink
+
+R-->>+DS: POST /service/:service/savereturn/signin/magiclink/:magiclink
+
+Note right of R: {<br>magiclink<br>}
+
+DS->>+DB: Find matching record
+
+Note right of DS: ?<br>{<br>type: magiclink<br>magiclink<br>}
+
+DB-->>-DS: 
+
+Note over DS: check <br>magiclink valid
+
+alt: if magiclink invalid
+
+  DS-->>R:  
+
+  alt: magiclink used
+
+    R-->>U: error
+
+  else: magiclink expired
+
+    R-->>U: error
+
+  else: magiclink invalid
+
+    R-->>U: error
+
+  end
+
+end
+
+  Note over DS: Mark magiclink as used
+
+  DS->>+DB: Update magiclink record 
+
+  Note right of DS: {<br>...<br>invalid: used<br>}
+
+  DB-->>-DS: 
+
+DS->>+DB: Find matching record
+
+Note right of DS: ?<br>{<br>type: savereturn<br>email<br>}
+
+DB-->>-DS: 
+
+Note over DS: Check email only
+
+alt: email only
+
+DS-->>R:   {userDetails}
+
+Note over R: Decrypt userDetails
+
+Note over R: Set cookie using id <br>and token <br>from userDetails
+
+R-->>U:  Redirect /return/authenticated
+
+else: email and mobile
+
+DS->>+DB: Find valid record matching code 
+
+Note right of DS: ?<br>{<br>type: signin_code<br>code<br>}
+
+DB-->>-DS: 
+
+alt: if existing signin_code record
+
+DS->>+DB: Update record as invalid 
+
+Note right of DS: {<br>...<br>invalid: superseded<br>}
+
+DB-->>-DS: 
+
+end
+
+Note over DS: Create  code<br>5 digits
+
+Note over DS: Create expiry_time<br>based on duration
+
+DS->>+DB: Create signin_code record
+
+Note right of DS: { <br>type: signin_code<br>code<br>email<br>expiry_time<br> }
+
+DB-->>-DS: 
+
+DS-XU: Send magiclink email via GOV Notify 
+
+
+DS-->>-R:   {mobile, code}
+
+Note over R: Set email, mobile<br>on current cookie
+
+R-XU: Send sms with code
+
+R-->>-U: Redirect /return/code
+
+end

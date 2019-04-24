@@ -1,0 +1,366 @@
+#!/usr/bin/env node
+
+process.stdout.write('\n')
+
+const args = require('yargs')
+  .version('1.0.0')
+  .option('debug', {
+    alias: 'd',
+    type: 'boolean',
+    default: false
+  })
+  .help()
+  .usage('$0', `
+  Generate pngs and svgs from .mmd and .dot files
+  
+  Output is written to same directory as source files
+  `)
+  .argv
+
+const {debug} = args
+
+const util = require('util')
+const path = require('path')
+const fs = require('fs')
+const childProcess = require('child_process')
+const glob = require('glob-promise')
+const mkdirp = require('mkdirp')
+
+const exec = util.promisify(childProcess.exec)
+const readFile = util.promisify(fs.readFile)
+const writeFile = util.promisify(fs.writeFile)
+const stat = util.promisify(fs.stat)
+
+// path to css to use for mermaid output
+const cssFile = './bin/mermaid/mermaid-sequence.css'
+
+const log = (msg) => {
+  process.stdout.write(msg)
+  process.stdout.write('\n')
+}
+
+const logError = (e, imgPath) => {
+  log(`Failed to generate ${imgPath}`)
+  log(e.toString())
+}
+
+const debugLog = (msg) => {
+  if (debug) {
+    log(msg)
+  }
+}
+
+/**
+* Determine path to generate image at
+*
+* @param {string} ext
+* Input path extension
+*
+* @param {string} format
+* Output format
+*
+* @param {string} inputPath
+* Path to input file
+*
+* @param {array} outputDir
+* Path to output directory
+*
+* @return {string}
+* Path for output file
+*
+**/
+const getOutputLocation = (ext, format, inputPath, outputDir = []) => {
+  const extRegex = new RegExp(`${ext}$`)
+  const outputBaseName = path.basename(inputPath).replace(extRegex, format)
+  const outputDirName = path.join(path.dirname(inputPath), ...outputDir)
+  try {
+    mkdirp.sync(outputDirName)
+  } catch (e) {
+    log(`Could not create output directory - ${outputDirName}`)
+    process.exit(1)
+  }
+  return path.join(outputDirName, outputBaseName)
+}
+
+/**
+* Check whether requested image needs to be generated
+*
+* Returns true if requested image does not exist or is older than the source file
+*
+* @param {string} source
+* Path to source file
+*
+* @param {string} target
+* Requested target path for output
+*
+* @return {boolean}
+*
+**/
+const checkGenerationRequired = async (source, target) => {
+  const sourceStat = await stat(source)
+  let generatedStat
+  try {
+    generatedStat = await stat(target)
+  } catch (e) {
+    return true
+  }
+  return sourceStat.mtime > generatedStat.mtime
+}
+
+/**
+* Helper method to generate images
+*
+* Checks whether requested file needs to be generated, handles errors and allows outputting of debug info
+*
+* @param {string} cmd
+* Command to execute
+*
+* @param {string} inputPath
+* Path to input file
+*
+* @param {string} outputPath
+* Path for output file
+*
+* @return {undefined}
+*
+**/
+const execImageCommand = async (cmd, inputPath, outputPath) => {
+  const generationRequired = await checkGenerationRequired(inputPath, outputPath)
+  if (!generationRequired) {
+    debugLog(`${outputPath} already exists`)
+    return
+  }
+  debugLog(`Executing\n\t${cmd}`)
+  try {
+    await exec(cmd)
+    log(`Generated ${outputPath}`)
+  } catch (e) {
+    logError(e, outputPath)
+  }
+}
+
+/**
+* CLI helper for mermaid
+*
+* @param {string} inputPath
+* Path to input file
+*
+* @param {string} outputPath
+* Path for output file
+*
+* @param {object} [settings]
+* Settings to pass to mermaid
+*
+* @return {undefined}
+*
+**/
+const execMermaid = async (inputPath, outputPath, settings = {}) => {
+  const settingsStr = Object.keys(settings)
+    .map(setting => `--${setting} ${settings[setting]}`)
+    .join(' ')
+
+  const mmdCommand = `mmdc -i ${inputPath} -o ${outputPath} ${settingsStr}`
+  await execImageCommand(mmdCommand, inputPath, outputPath)
+}
+
+/**
+* CLI helper for dot
+*
+* @param {string} inputPath
+* Path to input file
+*
+* @param {string} outputPath
+* Path for output file
+*
+* @param {string} format
+* Output format
+*
+* @return {undefined}
+*
+**/
+const execDot = async (inputPath, outputPath, format) => {
+  const dotCommand = `dot -T${format} ${inputPath} -o ${outputPath}`
+  await execImageCommand(dotCommand, inputPath, outputPath)
+}
+
+/**
+* CLI helper for puml
+*
+* @param {string} inputPath
+* Path to input file
+*
+* @param {string} outputPath
+* Path for output file
+*
+* @param {string} format
+* Output format
+*
+* @return {undefined}
+*
+**/
+const execPuml = async (inputPath, outputPath, format) => {
+  const pumlCommand = `puml generate ${inputPath} -o ${outputPath} --${format}`
+  await execImageCommand(pumlCommand, inputPath, outputPath)
+}
+
+/**
+* Generate images from mermaid files (.mmd)
+*
+* Writes output to same location
+*
+* @param {string} dir
+* Path to look for .mmd files in
+*
+* @param {array} outputDir
+* Path to output directory to use
+*
+* @param {string} cssFile
+* Path to css file to use
+*
+* @return {undefined}
+*
+**/
+const generateMermaidImages = async (dir, outputDir, cssFile) => {
+  try {
+    await exec('which mmdc')
+  } catch (e) {
+    debugLog('Skipping mermaid images as mmdc not installed')
+    return
+  }
+
+  // create style block to inject into svg files
+  let cssFileContents = ''
+  if (cssFile) {
+    try {
+      cssFileContents = await readFile(cssFile).toString()
+    } catch (e) {
+      log(`Failed to load css file ${cssFile}`)
+    }
+  }
+  const styleDef = `<defs>
+  <style type="text/css">
+  ${cssFileContents}
+  </style>
+</defs>`
+
+  const mmdFiles = await glob(`${dir}/**/*.mmd`)
+
+  mmdFiles.forEach(async filePath => {
+    debugLog(`Processing ${filePath}`)
+
+    const fileContents = await readFile(filePath)
+
+    // default width, height and css
+    const settings = {
+      width: 1200,
+      height: 1200,
+      cssFile
+    }
+
+    // check file for custom settings
+    const fileChunks = fileContents.toString().split('\n').filter(chunk => chunk.startsWith('%%'))
+    fileChunks.forEach(chunk => {
+      chunk = chunk.replace(/%%\s*/, '')
+      const setting = chunk.split(/\s*:\s*/)
+      if (setting.length === 2) {
+        settings[setting[0]] = setting[1]
+      }
+    })
+
+    const pngPath = getOutputLocation('mmd', 'png', filePath, outputDir)
+    const svgPath = getOutputLocation('mmd', 'svg', filePath, outputDir)
+
+    execMermaid(filePath, pngPath, settings)
+
+    execMermaid(filePath, svgPath, settings)
+      // inject style block into svg file
+      .then(() => readFile(svgPath))
+      .then(svgFile => {
+        let svgFileContents = svgFile.toString().replace(/<\/style><g>/, (m) => {
+          return `</style>${styleDef}<g>`
+        })
+        return svgFileContents
+      })
+      .then(svgFileContents => writeFile(svgPath, svgFileContents))
+      .catch(e => { logError(e, svgPath) })
+  })
+}
+
+/**
+* Generate images from graphiz dot files (.dot)
+*
+* Writes output to same location
+*
+* @param {string} dir
+* Path to look for .mmd files in
+*
+* @param {array} outputDir
+* Path to output directory to use
+*
+* @return {undefined}
+*
+**/
+const generateDotImages = async (dir, outputDir) => {
+  try {
+    await exec('which dot')
+  } catch (e) {
+    debugLog('Skipping dot images as dot not installed')
+    return
+  }
+
+  const dotFiles = await glob(`${dir}/**/*.dot`)
+  dotFiles.forEach(filePath => {
+    debugLog(`Processing ${filePath}`)
+
+    const formats = ['png', 'svg']
+    formats.forEach(format => {
+      const formatPath = getOutputLocation('dot', format, filePath, outputDir)
+      execDot(filePath, formatPath, format)
+    })
+  })
+}
+
+/**
+* Generate images from Plant UML files (.puml)
+*
+* Writes output to same location
+*
+* @param {string} dir
+* Path to look for .mmd files in
+*
+* @param {array} outputDir
+* Path to output directory to use
+*
+* @return {undefined}
+*
+**/
+const generatePlantUMLImages = async (dir, outputDir) => {
+  try {
+    await exec('which puml')
+  } catch (e) {
+    debugLog('Skipping PlantUML files as puml not installed')
+    return
+  }
+
+  const pumlFiles = await glob(`${dir}/**/*.puml`)
+  pumlFiles.forEach(filePath => {
+    debugLog(`Processing ${filePath}`)
+
+    const formats = ['png', 'svg']
+    formats.forEach(format => {
+      const formatPath = getOutputLocation('puml', format, filePath, outputDir)
+      execPuml(filePath, formatPath, format)
+    })
+  })
+}
+
+// Generate all the images
+const generateImages = async () => {
+  const documentationDir = path.resolve(__dirname, '..', 'documentation')
+  const outputDir = ['..', 'images']
+  generateMermaidImages(documentationDir, outputDir, cssFile)
+  generateDotImages(documentationDir, outputDir)
+  generatePlantUMLImages(documentationDir, outputDir)
+}
+
+generateImages()

@@ -1,0 +1,130 @@
+@startuml
+hide footbox
+title Data submission sequence
+
+actor "Service Team" as ServiceTeam
+
+actor User as User
+
+box
+boundary Runner as Runner
+endbox
+
+box
+participant "Submittter API" as SubmitterAPI
+
+participant "Submitter Workers" as SubmitterWorkers
+
+participant "Submitter Database" as SubmitterDB
+
+participant "User Filestore API" as FilestoreAPI
+endbox
+
+participant "Amazon SES Email" as Email
+participant "Submission Endpoint" as Endpoint
+
+Note over User: Check answers
+
+User -> Runner : Submit application
+
+activate Runner
+
+Note over Runner : Add output urls\n--> submission_details
+
+|||
+
+Runner -> SubmitterAPI : POST /submission
+
+activate SubmitterAPI
+
+Note right of Runner : { \n service_slug, \n encrypted_user_id_and_token, \n submission_details \n}
+
+Note over SubmitterAPI : Add submissionId
+
+SubmitterAPI -> SubmitterWorkers : Add to queue
+
+activate SubmitterWorkers
+
+SubmitterWorkers -> SubmitterDB ++ : Store tasks
+SubmitterDB --> SubmitterWorkers --
+
+SubmitterWorkers --> SubmitterAPI
+
+deactivate SubmitterWorkers
+
+SubmitterAPI --> Runner : return {submissionId}
+
+deactivate SubmitterAPI
+
+Note over Runner : Store submissionId \nin UserData
+
+Runner --> User
+
+deactivate Runner
+
+Note over User: Confirmation page
+
+|||
+... Task scheduled for workers ...
+|||
+
+loop Collate output files
+
+  SubmitterDB -> SubmitterWorkers : Process output URL
+
+  activate SubmitterWorkers
+
+  alt If generated output
+
+    SubmitterWorkers -> Runner : GET /api/submitter/:outputType/:outputId/:filename?
+
+    activate Runner
+
+    Note over Runner : Create requested output
+
+    Runner --> SubmitterWorkers : return <<output>>
+
+    deactivate Runner
+
+    else if user-uploaded file
+
+    SubmitterWorkers -> FilestoreAPI : GET /service/:serviceSlug/user/:userId/:fingerprint
+
+    activate FilestoreAPI
+
+    Note left of FilestoreAPI: See User Filestore API \nfor details
+
+    FilestoreAPI --> SubmitterWorkers : return <<file>>
+
+    deactivate FilestoreAPI
+
+  end
+
+end
+
+alt if user email
+Note over SubmitterWorkers: Send confirmation email + application answers as pdf
+SubmitterWorkers -> Email
+activate Email
+Email -> User
+deactivate Email
+end
+
+alt if service team email
+Note over SubmitterWorkers: Send confirmation email + application answers in requested format + any uploaded files
+SubmitterWorkers -> Email
+activate Email
+Email -> ServiceTeam
+deactivate Email
+end
+
+alt if endpointt
+Note over SubmitterWorkers: Submit data to endpointt
+SubmitterWorkers -> Endpointt
+end
+
+
+deactivate SubmitterWorkers
+
+
+@enduml

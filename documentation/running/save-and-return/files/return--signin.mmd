@@ -1,0 +1,69 @@
+sequenceDiagram
+
+participant U as User
+
+participant R as Runner
+
+participant DS as User Datastore API
+
+participant DB as User Datastore DB
+
+Note over U: Invoke
+
+U->>+R: GET /return
+
+R-->>-U: Redirect /return/email
+
+Note over U: Enter email
+
+U->>+R: POST /return/email
+
+Note right of U: {<br>email<br>}
+
+Note over R: Encrypt email
+
+R-->>+DS: GET /service/:service/savereturn/signin/email/:email
+
+DS->>+DB: Find valid record matching code 
+
+Note right of DS: ?<br>{<br>type: magiclink<br>email<br>}
+
+DB-->>-DS: 
+
+alt: if existing magiclink record
+
+DS->>+DB: Update record as invalid 
+
+Note right of DS: {<br>...<br>invalid: superseded<br>}
+
+DB-->>-DS: 
+
+end
+
+Note over DS: Create  magiclink<br>UUID v4
+
+Note over DS: Create expiry_time<br>based on duration
+
+DS->>+DB: Create magiclink record 
+
+Note right of DS: { <br>type: magiclink<br>magiclink<br>email<br>expiry_time<br> }
+
+DB-->>-DS: 
+
+DS-XU: Send magiclink email via GOV Notify 
+
+DS-->>-R:  
+
+R-->>-U:  Redirect to /return/email/check
+
+Note over U: -> email<br> or email + mobile
+
+Note over U: Resend magiclink
+
+alt: Did not get magiclink
+
+U->>R: POST /return/email/resend
+
+R-->>U: Redirect /return/email/check
+
+end

@@ -1,0 +1,87 @@
+digraph {
+  newrank=true;
+  size = "20,10";
+  #splines=polyline;
+  graph [pad="0.5", ranksep="1", nodesep="1"]
+  node [fontname = "helvetica", width=3, fillcolor = white, fontcolor=black, xfixedsize=true]
+  # node [shape=note]
+  # yah [label="\lthis is way, way, \lway out of \lmy comfort \lleague \lzone \lway out of \lmy comfort \lleague \lzone \lway out of \lmy comfort \lleague \l zone \l "]
+
+  node [width=4, height=1.5]
+  node [shape = box];
+  setMultipleCount
+  setPageToParent
+
+  node [shape = ellipse];
+  page
+  subpage
+  originalPage
+  endPage
+  nextStep
+
+  node [shape=trapezium]
+
+  node [shape = diamond, style = filled, fillcolor = gray90, fontcolor=black, width=1.5];
+  hasSubpages
+  isMultipleInstance
+  isMultipleCountTooBig
+  hasParent
+  lastStep
+
+
+  page -> hasSubpages
+  hasSubpages -> subpage [label = "yes"]
+  hasSubpages -> isMultipleInstance [label = "no"]
+  isMultipleInstance -> isMultipleCountTooBig [label = "yes"]
+  isMultipleCountTooBig -> setMultipleCount [label = "no"]
+  setMultipleCount -> originalPage
+  isMultipleInstance -> hasParent [label = "no"]
+  isMultipleCountTooBig -> hasParent [label = "yes"]
+  hasParent -> endPage [label = "no"]
+  hasParent -> lastStep [label = "yes"]
+  lastStep -> nextStep [label = "no"]
+  lastStep -> setPageToParent [label = "yes"]
+  setPageToParent -> isMultipleInstance
+
+// lastStep -> yah
+  subgraph cluster_a {
+    style=invis;
+    page;
+    hasSubpages;
+    subpage;
+  }
+  subgraph cluster_b {
+    style=invis;
+    isMultipleInstance;
+    hasParent;
+    endPage;
+  }
+  subgraph cluster_c {
+    style=invis;
+    lastStep;
+    setPageToParent;
+    nextStep;
+  }
+  {
+    rank=same;
+    hasSubpages;
+    isMultipleInstance;
+  }
+  {
+    rank=same;
+    hasParent;
+    isMultipleCountTooBig;
+    lastStep;
+  }
+  {
+    rank=same;
+    nextStep;
+    endPage;
+    originalPage;
+  }
+  #{
+  #  rank=same;
+  #  isMultipleInstance;
+  #  isMultipleCountTooBig;
+  #}
+}

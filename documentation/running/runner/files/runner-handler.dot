@@ -1,0 +1,125 @@
+digraph {
+  label = <<font point-size='48'>Runner handler flow</font>>
+  labelloc = "t"
+  labelfontsize = "36"
+
+  newrank=true
+  size = "40,20"
+  graph [pad="0.5", ranksep="1", nodesep="1"]
+  node [fontname = "helvetica", width=4, height=1.5]
+
+  node [shape = box, fillcolor = white, fontcolor=black, width=4]
+  handleUrl [label = "Match URL"]
+  clonePageInstance [label = "Clone page instance"]
+  dynamicProps [label = "Determine mode and dynamic props"]
+  handleAddDelete [label = "Handle any Add/Delete action"]
+  updatePageInstance [label = "Update page instance with dynamic props"]
+  evaluateRequiredIf [label = "Evaluate components with requiredIf"]
+  validate [label = "Validate input"]
+  runPageComponentCode [label = "Run arbitrary page/component code"]
+  removeHiddenComponents [label = "Remove hidden components"]
+  validate [label = "Validate all expected fields"]
+  setErrors [label = "Set any errors"]
+  updateValues [label = "Update any values"]
+  addTriggersReveals [label = "Add any triggers and reveals info"]
+  substitution [label = "Substitute text strings"]
+  render [label = "Render output"]
+  nextPage [label = "Redirect to next page"]
+  noNextPage [label = "Error - no next page"]
+  goNext [label = "Determine next page"]
+  goNextForced [label = "Determine next page (forced)"]
+
+  node [shape = diamond, style = filled, fillcolor = gray90, fontcolor=black, width=1.5]
+  handleAddDeleteRequired [label = "POST?"]
+  checkDepends [label = "Should page be shown?"]
+  ifPostHandling [label = "POST?"]
+  ifErrors [label = "Errors?"]
+  ifRedirect [label = "Redirect?"]
+  ifRedirectForced [label = "Redirect?"]
+
+  handleUrl -> clonePageInstance;
+  clonePageInstance -> dynamicProps;
+  dynamicProps -> handleAddDeleteRequired;
+  handleAddDeleteRequired -> handleAddDelete [xlabel = "yes"]
+  handleAddDelete -> updatePageInstance
+  handleAddDeleteRequired -> updatePageInstance [xlabel = "no"]
+  updatePageInstance -> runPageComponentCode
+  runPageComponentCode -> checkDepends
+  checkDepends -> ifPostHandling [xlabel = "yes"]
+  checkDepends -> goNextForced [xlabel = "no"]
+  ifPostHandling -> evaluateRequiredIf [label = "yes"]
+  evaluateRequiredIf -> validate
+  validate -> ifErrors
+  ifErrors -> setErrors [xlabel = "yes"]
+  ifErrors -> updateValues [xlabel = "no"]
+  setErrors -> updateValues
+  updateValues -> goNext
+  ifPostHandling -> ifRedirect [xlabel = "no"]
+  removeHiddenComponents -> addTriggersReveals
+  addTriggersReveals -> substitution
+  substitution -> render
+  goNext -> ifRedirect
+  goNextForced -> ifRedirectForced
+  ifRedirectForced -> noNextPage [xlabel = "no"]
+  ifRedirectForced -> nextPage [xlabel = "yes"]
+  ifRedirect -> removeHiddenComponents [xlabel = "no" ]
+  ifRedirect -> nextPage [xlabel = "yes" ]
+
+  subgraph cluster_starter {
+    style=invis
+      handleUrl
+      clonePageInstance
+      dynamicProps
+      handleAddDeleteRequired
+      updatePageInstance
+      runPageComponentCode
+      checkDepends
+      goNextForced
+      ifRedirectForced
+      noNextPage
+  }
+
+    subgraph cluster_gosh {
+    style=invis
+      ifPostHandling
+      ifRedirect
+      nextPage
+  }
+
+  subgraph cluster_banana {
+    style=invis
+      evaluateRequiredIf
+      validate
+      ifErrors
+      updateValues
+      goNext
+      removeHiddenComponents
+      addTriggersReveals
+      substitution
+      render
+  }
+
+  {
+    rank=same
+    goNextForced
+    validate
+  }
+  {
+    rank=same
+    checkDepends
+    ifPostHandling
+    evaluateRequiredIf
+  }
+  {
+    rank=same
+    goNext
+    ifRedirect
+    ifRedirectForced
+  }
+  {
+    rank=same
+    render
+    nextPage
+    noNextPage
+  }
+}
