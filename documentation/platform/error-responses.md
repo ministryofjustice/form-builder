@@ -10,3 +10,12 @@ All error responses should be sent as `json` and take the form
   [optional properties]
 }
 ```
+
+eg. when rejecting files containing viruses
+
+```json
+{
+  "code": 400,
+  "name": "invalid.virus"
+}
+```
