@@ -41,15 +41,15 @@ U->>+R: POST /return/setup/email/confirm
 Note right of U: {<br>email_confirmed<br>}
 
 Note over R: Get email <br>(and passphrase) <br>from userData
-Note over R: Encrypt<br>AES256 with<br>SERVICE_SECRET<br>- email<br>- userId<br>- userToken<br><br>--> email_details
+Note over R: Encrypt<br>AES256 with<br>SERVICE_SECRET<br>- email<br>- userId<br>- userToken<br><br>--> encrypted_details
 
 Note over R: Encrypt <br>- email<br>- [passphrase]
 
 R->>+DS: POST /service/:service/savereturn/email/add
 
-Note right of R: {<br>email_for_sending,<br>email<br>[passphrase],<br>email_details,<br>duration<br>link_template<br>service_vars: {...}<br>}
+Note right of R: {<br>email,<br>encrypted_email<br>[encrypted_passphrase],<br>encrypted_details,<br>duration<br>link_template<br>service_vars: {...}<br>}
 
-DS->>+DB: Find valid record matching email
+DS->>+DB: Find valid record matching encrypted_email
 
 DB-->>-DS: 
 
@@ -69,7 +69,7 @@ Note over DS: Create expiry_time<br>based on duration
 
 DS->>+DB: Create email_token record 
 
-Note right of DS: { <br>type: email_token<br>email_token<br>expiry_time,<br>email<br>[passphrase]<br>email_details<br> }
+Note right of DS: { <br>type: email_token<br>email_token<br>expiry_time,<br>encrypted_email<br>[encrypted_passphrase]<br>encrypted_details<br> }
 
 DB-->>-DS: 
 

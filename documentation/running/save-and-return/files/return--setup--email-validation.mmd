@@ -20,7 +20,7 @@ Note right of U: {<br>email_token,<br>[passphrase]<br>}
 
 R->>+DS: POST /service/:service/savereturn/email/confirm
 
-Note right of R: {<br>email_token,<br>[passphrase]<br>}
+Note right of R: {<br>email_token,<br>[encrypted_passphrase]<br>}
 
 DS->>+DB: Fetch email_token record 
 
@@ -66,9 +66,9 @@ Note right of DS: {<br>...<br>invalid: used<br>}
 
 DB-->>-DS: 
 
-DS-->>-R:  {email_details}
+DS-->>-R:  {encrypted_details}
 
-Note over R: Decrypt email_details]
+Note over R: Decrypt encrypted_details]
 
 alt: if no cookie
 
@@ -76,7 +76,7 @@ alt: if no cookie
 
 end
 
-Note over R: Add email_details<br>to userData
+Note over R: Add encrypted_details<br>to userData
 
 alt: if no 2fa
 

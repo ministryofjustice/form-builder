@@ -14,18 +14,22 @@ Note right of U: code
 
 Note over R: Get email, mobile<br>from current cookie
 
-R-->>+DS: GET /service/:service/savereturn/signin/email/:email/mobile/:mobile/code/:code
+R-->>+DS: POST /service/:service/savereturn/signin/code/validate
+
+Note right of R: {<br>code,<br>encrypted_email<br>}
 
 DS->>+DB: Find matching record
+
+Note right of DS: ?<br>{<br>code,<br>encrypted_email<br>}
 
 DB-->>-DS: 
 
 Note over DS: Check code <br>expiry date
 
-DS-->>-R: userDetails
+DS-->>-R: {encrypted_details}
 
-Note over R: Decrypt userDetails
+Note over R: Decrypt <br>encrypted_details
 
-Note over R: Set cookie using id <br>and token <br>from userDetails
+Note over R: Set cookie using id <br>and token from <br>encrypted_details
 
 R-->>-U:  Redirect /return/authenticated

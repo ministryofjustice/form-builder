@@ -28,13 +28,13 @@ Note over R: Get mobile <br>from userData
 
 Note over R: Get email<br>from email_details<br>in userData
 
-Note over R: Encrypt<br>AES256 with<br>SERVICE_SECRET<br>- email<br>- mobile<br>- userId<br>- userToken<br><br>--> 2fa_details
+Note over R: Encrypt<br>AES256 with<br>SERVICE_SECRET<br>- email<br>- mobile<br>- userId<br>- userToken<br><br>--> encrypted_details
 
-Note over R: Encrypt mobile
+Note over R: Encrypt email
 
-R->>+DS: POST /service/:service/savereturn/email/add
+R->>+DS: POST /service/:service/savereturn/mobile/add
 
-Note right of R: {<br>mobile_for_sending<br>mobile<br>2fa_details<br>}
+Note right of R: {<br>mobile<br>encrypted_email<br>encrypted_details<br>duration<br>}
 
 DS->>+DB: Find valid record matching code 
 
@@ -56,7 +56,7 @@ Note over DS: Create expiry_time<br>based on duration
 
 DS->>+DB: Create code record 
 
-Note right of DS: { <br>type: code<br>code<br>mobile<br>2fa_details<br>expiry_time<br> }
+Note right of DS: { <br>type: code<br>code<br>encrypted_email<br>encrypted_details<br>expiry_time<br> }
 
 DB-->>-DS: 
 
