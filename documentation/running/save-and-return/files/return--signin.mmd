@@ -22,11 +22,13 @@ Note right of U: {<br>email<br>}
 
 Note over R: Encrypt email
 
-R-->>+DS: GET /service/:service/savereturn/signin/email/:email
+R-->>+DS: POST /service/:service/savereturn/signin/email
+
+Note right of R: {<br>email<br>encrypted_email<br>[duration]<br>}
 
 DS->>+DB: Find valid record matching code 
 
-Note right of DS: ?<br>{<br>type: magiclink<br>email<br>}
+Note right of DS: ?<br>{<br>type: magiclink<br>encrypted_email<br>}
 
 DB-->>-DS: 
 
@@ -46,7 +48,7 @@ Note over DS: Create expiry_time<br>based on duration
 
 DS->>+DB: Create magiclink record 
 
-Note right of DS: { <br>type: magiclink<br>magiclink<br>email<br>expiry_time<br> }
+Note right of DS: { <br>type: magiclink<br>magiclink<br>encrypted_email<br>expiry_time<br> }
 
 DB-->>-DS: 
 
@@ -56,7 +58,7 @@ DS-->>-R:
 
 R-->>-U:  Redirect to /return/email/check
 
-Note over U: -> email<br> or email + mobile
+Note over U: -> magiclink
 
 Note over U: Resend magiclink
 

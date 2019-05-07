@@ -20,11 +20,11 @@ Note over R: Encrypt mobile
 
 R-->>+DS: POST /service/:service/savereturn/mobile/confirm
 
-Note right of R: {<br>code,<br>mobile<br>}
+Note right of R: {<br>code,<br>encrypted_mobile<br>[duration]<br>}
 
 DS->>+DB: Find matching record
 
-Note right of DS: ? <br>{<br>type: code<br>mobile<br>}
+Note right of DS: ? <br>{<br>type: code<br>encrypted_mobile<br>}
 
 DB-->>-DS:  
 
@@ -58,11 +58,11 @@ end
 
   DB-->>-DS: 
 
-DS-->>-R:   {2fa_details}
+DS-->>-R:   {encrypted_details}
 
-Note over R: Decrypt 2fa_details
+Note over R: Decrypt <br>encrypted_details
 
-Note over R: Add 2fa_details<br>to userData
+Note over R: Add <br>encrypted_details<br>to userData
 
 R-->>-U: Redirect to /return/setup/success
 
