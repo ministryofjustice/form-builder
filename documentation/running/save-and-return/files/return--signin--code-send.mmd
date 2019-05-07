@@ -10,7 +10,7 @@ participant DB as User Datastore DB
 
 R->>+DS: POST /service/:service/savereturn/signin/code
 
-Note right of R: { <br>mobile<br>encrypted_email<br>duration<br> }
+Note right of R: { <br>mobile<br>encrypted_email<br>[duration]<br>}
 
 DS->>+DB: Find valid record matching code 
 
