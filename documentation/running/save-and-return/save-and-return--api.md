@@ -92,7 +92,7 @@ Current time + duration (minutes|hours?)
   email_token,
   expiry_time,
   encrypted_email,
-  [passphrase],
+  [encrypted_passphrase],
   email_details
 }
 ```
@@ -108,7 +108,7 @@ Expected body
 ``` json
 {
   "email_token": "<string>",
-  "[passphrase]": "<string>"
+  "[encrypted_passphrase]": "<string>"
 }
 ```
 
