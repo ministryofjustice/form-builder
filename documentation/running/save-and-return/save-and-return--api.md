@@ -137,7 +137,7 @@ Expected body
 ``` json
 {
   "mobile": "<string>",
-  "encrypted_mobile": "<string>",
+  "encrypted_email": "<string>",
   "encrypted_details": "<string>",
   "[duration]": "<number>"
 }
@@ -165,7 +165,7 @@ Expected body
 ``` json
 {
   "code": "<string>",
-  "encrypted_mobile": "<string>"
+  "encrypted_email": "<string>"
 }
 ```
 
