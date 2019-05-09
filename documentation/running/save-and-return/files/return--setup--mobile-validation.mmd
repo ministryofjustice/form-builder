@@ -14,17 +14,17 @@ U->>+R: POST /return/setup/mobile/code/:mobile_validation_code
 
 Note right of U: {<br>code<br>}
 
-Note over R: Retrieve mobile<br>from userData
+Note over R: Retrieve email<br>from userData
 
-Note over R: Encrypt mobile
+Note over R: Encrypt email
 
 R-->>+DS: POST /service/:service/savereturn/mobile/confirm
 
-Note right of R: {<br>code,<br>encrypted_mobile<br>[duration]<br>}
+Note right of R: {<br>code,<br>encrypted_email<br>}
 
 DS->>+DB: Find matching record
 
-Note right of DS: ? <br>{<br>type: code<br>encrypted_mobile<br>}
+Note right of DS: ? <br>{<br>type: code<br>encrypted_email<br>}
 
 DB-->>-DS:  
 

@@ -34,7 +34,7 @@ Note over R: Encrypt email
 
 R->>+DS: POST /service/:service/savereturn/mobile/add
 
-Note right of R: {<br>mobile<br>encrypted_email<br>encrypted_details<br>duration<br>}
+Note right of R: {<br>mobile<br>encrypted_email<br>encrypted_details<br>[duration]<br>}
 
 DS->>+DB: Find valid record matching code 
 
