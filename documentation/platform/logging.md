@@ -1,4 +1,4 @@
-# Logging 
+# Logging
 
 Draft - include RAILS_LOG ENV var info
 
@@ -8,20 +8,13 @@ Draft - include RAILS_LOG ENV var info
 
 Logs that have been exposed to the container they run in's stdout can be accessed via Kibana
 
-https://kibana.apps.cloud-platform-live-0.k8s.integration.dsd.io
+https://kibana.cloud-platform.service.justice.gov.uk/_plugin/kibana
 
 Forms can be identified by setting filtering by `kubernetes.container_name`, setting its value to that of the form you're after
-
-eg.
-
-<a href="https://kibana.apps.cloud-platform-live-0.k8s.integration.dsd.io/_plugin/kibana/app/kibana#/discover?_g=(refreshInterval:(value:5000),time:(from:now-15m,mode:quick,to:now))&_a=(columns:!(log),filters:!((query:(match:(kubernetes.container_name:(query:moj-leavers-form,type:phrase))))),interval:auto,query:(language:lucene,query:''),sort:!('@timestamp',desc))">Link to moj-leavers-form last 15 minutes</a>
-
 
 ## Raw logs
 
 NB. [Stern](https://github.com/wercker/stern) is a logging tool that allows the viewing of logs from multiple pods at once - it's essentially a convenient shortcut equivalent to:
-
-
 
 ```
 kubectl get pods -n $NAMESPACE | grep $FORM
