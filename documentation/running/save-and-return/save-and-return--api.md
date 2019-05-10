@@ -57,8 +57,8 @@ Expected body
   "[encrypted_passphrase]": "<string>",
   "encrypted_details": "<string>",
   "[duration]": "<number>",
-  "link_template": "<string>",
-  "[service_vars]": "<object>"
+  "validation_url": "<string>",
+  "[template_context]": "<object>"
 }
 ```
 
