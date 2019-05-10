@@ -47,7 +47,7 @@ Note over R: Encrypt <br>- email<br>- [passphrase]
 
 R->>+DS: POST /service/:service/savereturn/email/add
 
-Note right of R: {<br>email,<br>encrypted_email<br>[encrypted_passphrase],<br>encrypted_details,<br>[duration]<br>link_template<br>service_vars: {...}<br>}
+Note right of R: {<br>email,<br>encrypted_email<br>[encrypted_passphrase],<br>encrypted_details,<br>[duration]<br>validation_url<br>template_context: {...}<br>}
 
 DS->>+DB: Find valid record matching encrypted_email
 
