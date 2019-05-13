@@ -221,7 +221,9 @@ Expected body
 {
   "email": "<string>",
   "encrypted_email": "<string>",
-  "[duration]": "<number>"
+  "[duration]": "<number>",
+  "validation_url": "<string>",
+  "[template_context]": "<object>"
 }
 ```
 
