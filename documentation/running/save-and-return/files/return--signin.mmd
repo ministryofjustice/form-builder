@@ -24,7 +24,7 @@ Note over R: Encrypt email
 
 R-->>+DS: POST /service/:service/savereturn/signin/email
 
-Note right of R: {<br>email<br>encrypted_email<br>[duration]<br>}
+Note right of R: {<br>email<br>encrypted_email<br>[duration]<br>validation_url<br>template_context: {...}<br>}
 
 DS->>+DB: Find valid record matching code 
 
