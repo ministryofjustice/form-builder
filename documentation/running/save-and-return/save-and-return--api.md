@@ -42,6 +42,29 @@ Requests should be signed with JWT - see [Signing requests with JWT](request-sig
 }
 ```
 
+### Email and SMS option objects
+
+Email
+```json
+{
+  "_id": "<string>",
+  "to": "<string>",
+  "[from]": "<string>",
+  "body": "<string>",
+  "subject": "<string>"
+}
+```
+
+SMS
+```json
+{
+  "_id": "<string>",
+  "to": "<string>",
+  "body": "<string>"
+}
+```
+
+
 ## Save (setup return record)
 
 ### Create email token for user to confirm email
@@ -52,13 +75,11 @@ Expected body
 
 ``` json
 {
-  "email": "<string>",
+  "email": "<object>",
   "encrypted_email": "<string>",
   "[encrypted_passphrase]": "<string>",
   "encrypted_details": "<string>",
-  "[duration]": "<number>",
-  "validation_url": "<string>",
-  "[template_context]": "<object>"
+  "[duration]": "<number>"
 }
 ```
 
@@ -136,7 +157,7 @@ Expected body
 
 ``` json
 {
-  "mobile": "<string>",
+  "sms": "<object>",
   "encrypted_email": "<string>",
   "encrypted_details": "<string>",
   "[duration]": "<number>"
@@ -192,6 +213,7 @@ Expected body
 
 ``` json
 {
+  "email": "<object>",
   "encrypted_email": "<string>",
   "encrypted_details": "<string>"
 }
@@ -219,11 +241,9 @@ Expected body
 
 ``` json
 {
-  "email": "<string>",
+  "email": "<object>",
   "encrypted_email": "<string>",
-  "[duration]": "<number>",
-  "validation_url": "<string>",
-  "[template_context]": "<object>"
+  "[duration]": "<number>"
 }
 ```
 
@@ -275,7 +295,7 @@ Expected body
 
 ``` json
 {
-  "mobile": "<string>",
+  "sms": "<object>",
   "encrypted_email": "<string>",
   "[duration]": "<number>"
 }

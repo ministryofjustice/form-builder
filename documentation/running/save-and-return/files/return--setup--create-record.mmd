@@ -18,7 +18,7 @@ Note over R: Encrypt <br>AES256 with <br>SERVICE_SECRET <br>- email, <br>- encry
 
 R-->>+DS: POST /service/:service/savereturn/create
 
-Note right of R: {<br>encrypted_email, <br>encrypted_details<br>}
+Note right of R: {<br>email (options)<br>encrypted_email, <br>encrypted_details<br>}
 
 DS->>+DB: Create record (encrypted_email must be unique)
 
