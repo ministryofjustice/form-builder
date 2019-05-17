@@ -47,7 +47,7 @@ Requests should be signed with JWT - see [Signing requests with JWT](request-sig
 Email
 ```json
 {
-  "_id": "<string>",
+  "template_name": "<string>",
   "to": "<string>",
   "[from]": "<string>",
   "body": "<string>",
@@ -58,7 +58,7 @@ Email
 SMS
 ```json
 {
-  "_id": "<string>",
+  "template_name": "<string>",
   "to": "<string>",
   "body": "<string>"
 }
