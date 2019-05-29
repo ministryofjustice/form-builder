@@ -8,7 +8,7 @@
   - SERVICE_SECRET
 - Only runner has access to SERVICE_SECRET
 
-[Diagram showing how Runner handles user data](user-data--sequence.md)
+[Diagram showing how Runner handles user data](user-data--runner-sequence.md)
 
 ---
 

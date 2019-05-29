@@ -9,7 +9,7 @@ This document summarises requirements for the User Data Store component & knock-
 
 ## System Context
 
-[![User Datastore - architecture](images/userdata--architecture.svg)](images/images/userdata--architecture.png)
+[![User Datastore - architecture](../images/fb-platform-architecture.png)](../images/fb-platform-architecture.png)
 
 ## API
 
