@@ -4,7 +4,7 @@ Users will be submitting potentially many different pieces of potentially very s
 
 Such a large cross-section of personal information must be stored and managed carefully. This document outlines the proposed model to mitigate each identified risk.
 
-[![User Datastore - architecture](images/userdata--architecture.svg)](images/images/userdata--architecture.png)
+[![User Datastore - architecture](../images/fb-platform-architecture.png)](../images/fb-platform-architecture.png)
 
 ## Network Segmentation / Isolation
 

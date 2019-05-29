@@ -10,5 +10,5 @@ Asking user questions or displaying relevant guidance/content
 
 
 ### User features
-- [Uploading files](file-upload/file-upload.md)
+- [Uploading files](../platform/file-upload/file-upload.md)
 - [Returning to an application](save-and-return/save-and-return.md)
