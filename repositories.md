@@ -12,6 +12,7 @@
 - [MoJ Cloud Platform](#moj-cloud-platform)
 - [Utitlies](#utilities)
 - [Form repos](#form-repos)
+- [Browser Automation Tests](#browser-automation-tests)
 
 ## Specifications and components
 
@@ -204,3 +205,13 @@ Example service
 ### [fb-service-starter](https://github.com/ministryofjustice/fb-service-starter)
 
 Base service to duplicate
+
+## Browser Automation Tests
+
+### [fb-automated-tests](https://github.com/ministryofjustice/fb-automated-tests)
+
+Browser automation tests using headless Chrome, which tests a particular form
+
+uses
+
+- eslint-config-fb
