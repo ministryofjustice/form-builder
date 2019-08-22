@@ -43,10 +43,14 @@ Signing the payload with a pre-shared secret would ensure that payloads are not
 tampered in transit as well as identifying sender. The adapter could further ensure
 that payloads are only received from Form Builder using HTTP request info.
 
+The shared secret will be set as an ENV var in the publisher to be consumed by
+the form's runner instance.
+
 Overview:
 
 Form Builder:
 - Connects with adapter via HTTPS using a ruby library such as [Net:HTTP](https://ruby-doc.org/stdlib-2.6.3/libdoc/net/http/rdoc/Net/HTTP.html)
+- Connection utlisises mutual TLS using `Net::HTTP verify_mode: OpenSSL::SSL::VERIFY_PEER`
 - Signs JSON payload using a shared secret and JWS protocol
 - Sends as POST request
 
