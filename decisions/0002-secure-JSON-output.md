@@ -38,23 +38,26 @@ to receive payloads.
 
 ## Proposed Decision
 
-### Mutual TLS over HTTP
-Use mutual TLS over HTTP (HTTPS). This would ensure
+### TLS over HTTP
+Use TLS over HTTP (HTTPS). This would ensure
 encrypted data in transit, which [satisfies MOJ standards](https://ministryofjustice.github.io/security-guidance/standards/cryptography/#cryptography).
+We came to the conclusion that mutual TLS doesn’t really bring any benefits and
+involves way too much management overhead in this context, so agreed on normal
+TLS + payload encryption with a pre-shared secret.
 
-### Signed JSON Payload
-Signing the payload with a pre-shared secret would ensure that payloads are not
-tampered in transit as well as identifying sender.
+### Encrypted JSON Payload
+Encryption of the payload is possible with JWE (JOSE toolkit). This would require
+decryption at the other end. Payload encryption is preferred over TLS alone as TLS
+is often terminated at the edge of a large network with ommunications travelling in the clear
+inside that network. Given the sensitivity of the submitted data for some forms
+and that it may need to be relied on in court, we need more confidence that only
+the intended recipient can read the data and that other actors on that network
+can’t impersonate FB by sending other requests to the endpoint.
 
 ### Shared Secret
 The shared secret will be set as an ENV var in the publisher to be consumed by
-the form's runner instance. The shared secret will be used to sign / confirm
+the form's runner instance. The shared secret will be used to encrypt / decrypt
 the payload.
-
-### Encryption
-Encryption of the payload is possible with JWE (JOSE toolkit). This would require
-decryption at the other end. As TLS is used, it is hoped we can rely solely on TLS
-encryption in transit.
 
 ### Certificates vs Shared Secret
 Both certificates and shared secrets can be used for signing and de-serialising the payload.
@@ -66,18 +69,16 @@ to generate and upload certificates may be too much to ask.
 
 Form Builder:
 - Connects with adapter via HTTPS using a ruby library such as [Net:HTTP](https://ruby-doc.org/stdlib-2.6.3/libdoc/net/http/rdoc/Net/HTTP.html).
-- Connection utlisises mutual TLS using `Net::HTTP verify_mode: OpenSSL::SSL::VERIFY_PEER`.
-- Signs JSON payload using a shared secret and JWS protocol.
+- Connection with TLS using `Net::HTTP` gem or similar.
+- Encrypts JSON payload using a shared secret and JWE protocol.
 - Sends as POST request.
 
 Adapter:
 - Receives HTTPS POST request from Form Builder.
-- Validates JWS signature using shared secret.
+- Decrypts JSON payload using shared secret.
 - Also verifies request header / origin to ensure it was sent from Form Builder.
 
 ## Consequences
 
 Desired level of security is achieved with an easy implementation for users building
 future adapters.
-
-There is no additional application level encryption. TLS over HTTP is relied on for this.
