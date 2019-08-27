@@ -71,7 +71,6 @@ Pros:
 Cons:
 
 - We must retain files for client to pick up
-- Client must pick up file within 1 week (S3 constraint)
 - We can only retain files for 28 days
 - An Exposed link will lead to unencrypted files being available for download
 - If client does not pick up data within 28 days the submission files will be
