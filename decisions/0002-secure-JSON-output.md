@@ -25,6 +25,8 @@ endpoint set by the user.
 Threats
 - Payload may be intercepted, exposing sensitive user answers.
 - Payload may be modified in transit, with potentially damaging consequences.
+- POST requests could be made to the receiver (adapter) from sources other than Form Builder,
+  creating records in their systems that don't reflect user submissions.
 
 Risks
 - Reputational damage due to data breaches
@@ -48,7 +50,7 @@ TLS + payload encryption with a pre-shared secret.
 ### Encrypted JSON Payload
 Encryption of the payload is possible with JWE (JOSE toolkit). This would require
 decryption at the other end. Payload encryption is preferred over TLS alone as TLS
-is often terminated at the edge of a large network with ommunications travelling in the clear
+is often terminated at the edge of a large network with communications travelling in the clear
 inside that network. Given the sensitivity of the submitted data for some forms
 and that it may need to be relied on in court, we need more confidence that only
 the intended recipient can read the data and that other actors on that network
@@ -57,12 +59,17 @@ can’t impersonate FB by sending other requests to the endpoint.
 ### Shared Secret
 The shared secret will be set as an ENV var in the publisher to be consumed by
 the form's runner instance. The shared secret will be used to encrypt / decrypt
-the payload.
+the payload. This shared secret would ideally be system generated rather than user
+generated to ensure that it is appropriate for the encryption method we choose.
 
 ### Certificates vs Shared Secret
 Both certificates and shared secrets can be used for signing and de-serialising the payload.
 Given users may not be technical, a shared secret would be preferred as requiring users
 to generate and upload certificates may be too much to ask.
+
+### Validation of remote endpoint
+The Form Builder system should validate the endpoint that is entered by the user.
+At minimum this should an an HTTPS endpoint and `*.gov.uk`.
 
 
 ### Overview of Solution
@@ -76,7 +83,6 @@ Form Builder:
 Adapter:
 - Receives HTTPS POST request from Form Builder.
 - Decrypts JSON payload using shared secret.
-- Also verifies request header / origin to ensure it was sent from Form Builder.
 
 ## Consequences
 
