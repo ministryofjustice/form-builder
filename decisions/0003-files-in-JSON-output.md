@@ -63,11 +63,19 @@ requires Form Builder to have an extra application to deal with this flow.
 
 Pros:
 
+- Lightweight JSON payload
+- S3 deals with files
 - Finer grain control of tokens
 - We are able to regenerate new tokens up to the maximum 28 day limit
 
 Cons:
 
+- We must retain files for client to pick up
+- Client must pick up file within 1 week (S3 constraint)
+- We can only retain files for 28 days
+- Exposed link will lead exposed data back to us
+- If client does not pick up data within 28 days the submission files will be
+lost
 - Requires additional ingress
 - Need another Form Builder Application to handle this flow
 - Still constrained by S3 28 day limit
