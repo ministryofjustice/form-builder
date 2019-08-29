@@ -123,27 +123,25 @@ associated back to submission
 
 ## Decision
 
-Option 2 has been chosen as the mechanism for sharing files with other systems.
+Option 3 has been chosen as the mechanism for sharing files with other systems.
 
 This create a lightweight JSON payload which reduces processing required by both
-parties. Infrastructure and most implementation is mostly dealt with by S3 so
-there is minimal work required by Form Builder to offer this solution.
+parties.
 
 The recipient is only required to accept a small JSON payload and can
 asynchronously pickup the files at a later point in time. To prevent files
 exposed, signed URLs should be short lived so if they were leaked the
 information should no longer be accessible.
 
-As a possible addition later, the client could sent back a different response
-which would confirm receipt of the files allowing Form Builder to delete the
-files shortly after.
+As we control these URLs it is possible to also generate one time use URLs.
+After we know the URL has been called, the token can be revoked.
 
-If Form Builder needs fine grain access control option 3 could be an option in
-the future to cater for this.
+As the files are encrypted we must sit a proxy in front of S3 to handle this.
+However this will give Form Builder full control of access to files stored.
 
 ## Consequences
 
 - Other systems can now easily integrate with form builder to further process
 user submissions including files uploaded
-- As signed S3 URLs are being generated if this information were to be leaked,
+- As signed URLs are being generated if this information were to be leaked,
 they would be able to access user files and lead back to form builder
