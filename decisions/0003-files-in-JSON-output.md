@@ -41,6 +41,10 @@ processing
 
 2. Embed signed many use AWS S3 URL in JSON
 
+This option is not possible as we encrypt files before they reach S3. Therefore
+the client downloading the file would have to know the decryption key and
+decrypt the file.
+
 Pros:
 
 - Lightweight JSON payload
@@ -60,6 +64,9 @@ lost
 This is similar to option 2. However, instead of embedding an S3 URL we can
 embed a custom Form Builder generated URL that we have control over. This would
 requires Form Builder to have an extra application to deal with this flow.
+
+As the files on S3 are encrypted by form builder. This application will have to
+proxy file upload and download, encrypting and decrypting files respectively.
 
 Pros:
 
@@ -90,6 +97,29 @@ Cons:
 
 - Potentially large POST request
 - Need some sort of convention to tie multipart files to JSON representation
+
+5. Decrypt S3 files after submission and embed signed S3 URL
+
+This is option 2, but since the files in S3 are encrypted we decrypt the file
+after submission. We then generate a signed S3 url which can be handed over to
+another system.
+
+Pros:
+
+- Lightweight JSON payload
+- S3 deals with files
+
+Cons:
+
+- We must retain files for client to pick up
+- Client must pick up file within 1 week (S3 constraint)
+- We can only retain files for 28 days
+- An Exposed link will lead to unencrypted files being available for download
+- If client does not pick up data within 28 days the submission files will be
+lost
+- Work needs to be done so post submission files are decrypted in S3 and
+associated back to submission
+- We will now be storing some files in S3 which are unencrypted
 
 ## Decision
 
