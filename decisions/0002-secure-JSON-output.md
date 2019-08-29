@@ -69,7 +69,7 @@ to generate and upload certificates may be too much to ask.
 
 ### Validation of remote endpoint
 The Form Builder system should validate the endpoint that is entered by the user.
-At minimum this should an an HTTPS endpoint and `*.gov.uk`.
+At minimum this should be an HTTPS endpoint and `*.gov.uk`.
 
 
 ### Overview of Solution
