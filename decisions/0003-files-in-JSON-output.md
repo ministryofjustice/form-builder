@@ -47,7 +47,7 @@ boundaries of responsibility between the platform and its users.
 
 We have discussed the pros and cons of 6 possible options:
 
-1. Include files in JSON document as Base64 encoded strings
+### 1. Include files in JSON document as Base64 encoded strings
 
 Pros:
 
@@ -61,7 +61,7 @@ Cons:
 processing
 - Clients will have to decode file
 
-2. Embed signed many use AWS S3 URL in JSON
+### 2. Embed signed many use AWS S3 URL in JSON
 
 This option is not possible as we encrypt files before they reach S3. Therefore
 the client downloading the file would have to know the decryption key and
@@ -81,7 +81,7 @@ Cons:
 - If client does not pick up data within 28 days the submission files will be
 lost
 
-3. Embed signed Form Builder URL.
+### 3. Embed signed Form Builder URL.
 
 This is similar to option 2. However, instead of embedding an S3 URL we can
 embed a custom Form Builder generated URL that we have control over. This would
@@ -109,7 +109,7 @@ lost
 - This will likely become a performance bottleneck
 - Still constrained by S3 28 day limit
 
-4. Multipart POST which includes JSON and files
+### 4. Multipart POST which includes JSON and files
 
 Pros:
 
@@ -121,7 +121,7 @@ Cons:
 - Potentially large POST request
 - Need some sort of convention to tie multipart files to JSON representation
 
-5. Decrypt S3 files after submission and embed signed S3 URL
+### 5. Decrypt S3 files after submission and embed signed S3 URL
 
 This is option 2, but since the files in S3 are encrypted we decrypt the file
 after submission. We then generate a signed S3 url which can be handed over to
@@ -144,7 +144,7 @@ lost
 associated back to submission
 - We will now be storing some files in S3 which are unencrypted
 
-6. Store and serve PSK-encrypted files directly from S3
+### 6. Store and serve PSK-encrypted files directly from S3
 
 - Expect the receiver to retrieve the files as opposed to Form Builder sending
 them
