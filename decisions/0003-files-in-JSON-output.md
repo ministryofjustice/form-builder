@@ -23,7 +23,29 @@ be accessible by the intended recipient. The solution should be cost effective
 and therefore cheap to implement and maintain. Integrating systems should able
 to receive files with ease therefore able to provide cost effective solutions.
 
-We have discussed the pros and cons of 4 possible options:
+We don't know, but suspect, that the various CMSs (Case Management Systems)
+which JSON submissions would eventually end up in will take very different
+approaches to ingesting files associated with a submission. This could include
+but not limited to:
+
+- File is encoded and embedded in a POST request to the CMS
+- POST a URL to the file for the CMS to retrieve via HTTP sync or async and
+store itself
+- POST a URL to the file for the CMS to retrieve via (S)FTP sync or async and
+store itself
+- POST a URL to the file where the CMS will expect to be able to retrieve it
+from on demand forever
+- POST a URL to the file where the CMS expects its user to manually download
+the file (and then reupload into the CMS)
+- (S)FTP into the CMS
+
+Form Builder is not in the business of supporting all these options directly,
+just as it is not in the business of making data submission requests using
+arbitrary formats, authentication, protocols etc. We need to define a standard
+approach which Form Builder can support (ideally at scale), with clear
+boundaries of responsibility between the platform and its users.
+
+We have discussed the pros and cons of 6 possible options:
 
 1. Include files in JSON document as Base64 encoded strings
 
@@ -84,6 +106,7 @@ Cons:
 lost
 - Requires additional ingress
 - Need another Form Builder Application to handle this flow
+- This will likely become a performance bottleneck
 - Still constrained by S3 28 day limit
 
 4. Multipart POST which includes JSON and files
@@ -121,27 +144,183 @@ lost
 associated back to submission
 - We will now be storing some files in S3 which are unencrypted
 
+6. Store and serve PSK-encrypted files directly from S3
+
+- Expect the receiver to retrieve the files as opposed to Form Builder sending
+them
+- Move the files to a separate S3 bucket (so it can have different permissions
+from the user datastore bucket) as part of processing a JSON submission
+- Encrypt the files with a pre-shared key (PSK)
+- Serve the files encrypted, and expect the receiver to decrypt them with the
+PSK
+- Use S3 native signed URLs (without a proxy application)
+- Have a 1 week expiry time on the signed URLs
+
+Pros:
+
+- Lightweight JSON payload
+- S3 deals with files
+- Files are encrypted for the next thing that needs them
+- Files continue to be stored encrypted
+
+Cons:
+
+- We must retain files for client to pick up
+- Client must pick up file within 1 week (S3 constraint)
+- We can only retain files for 28 days, so if client does not pick up data
+within 28 days the submission files will be lost
+- The additional complexity it puts onto an adapter may put some users off this
+approach altogether, resulting in them using email submissions (probably less
+secure and more manual work involved) or not using Form Builder at all
+- We may end up building and maintaining a large number of adapters ourselves,
+but outside the bounds of the platform, resulting in us still having to deal
+with all the complexity of integrating with all the CMSs but with more layers of
+abstraction involved
+
 ## Decision
 
-Option 3 has been chosen as the mechanism for sharing files with other systems.
+There are actually several decisions involved in these options:
 
-This create a lightweight JSON payload which reduces processing required by both
-parties.
+### How far Form Builder has a responsibility to help platform users deal with the range of possible ways that CMSs could expect to ingest files
 
-The recipient is only required to accept a small JSON payload and can
-asynchronously pickup the files at a later point in time. To prevent files
-exposed, signed URLs should be short lived so if they were leaked the
-information should no longer be accessible.
+Form Builder may help on an individual basis by building adapters outside the
+platform, preferably to be owned by another entity. However Form Builder should
+offer a mechanism that enables these entities to be able to integrate with other
+systems
 
-As we control these URLs it is possible to also generate one time use URLs.
-After we know the URL has been called, the token can be revoked.
+### Whether to send files to the receiver or let them know they should request them from Form Builder
 
-As the files are encrypted we must sit a proxy in front of S3 to handle this.
-However this will give Form Builder full control of access to files stored.
+The latter is more likely to be reliable and scalable, so proceeding on this
+basis this excludes options 1 & 4
+
+### Whether to encrypt the files
+
+Presumably with the PSK used to encrypt the JSON payload, since they will
+previously be encrypted for the submitter which has finished with them by this
+stage in one or both of:
+
+- At rest in S3
+- In transit to the receiver
+
+### How long to keep files retrievable for
+
+Whether directly available from S3 or through a proxy application by the
+receiver. In some use cases this may involve human intervention to get files
+into the CMS.
+
+### Whether to use S3 native signed URLs or generate and manage our own signed URLs
+
+If the latter, whether to only generate single-use signed URLs on request
+(with those requests authenticated as being from the receiver) or whether to use
+time-limited URLs, possibly with ability to revoke them on callback confirming
+that the receiver has successfully retrieved and stored the file.
+
+### Issues concerning encryption:
+
+- If we don't encrypt the file for the receiver in S3, or make it available at a
+URL unencrypted, then we need to be much more careful about bucket
+misconfiguration, short lived URLs, revokable URLs, alerting on reuse of URLs,
+attempts to traverse/enumerate bucket contents should be considered to prevent
+attempts to gain access from unintended audiences.
+
+- If we do encrypt the files in S3, we don't need to worry so much about
+accidental misconfiguration of the bucket or attempts to traverse/enumerate it -
+even if we don't have a proxy application in front of it
+
+- If we encrypt the files in S3 and also serve them encrypted, then we don't
+need to worry as much about bucket-level access to the files.
+
+- A proxy application is needed if the adapter does not have the responsibility
+of decrypting the files. A proxy would not be needed if the responsibility of
+decryption is moved to the adapter. However some kind of pre-shared key
+mechanism would be needed.
+
+- This also follows the principle of all user-submitted data in Form Builder
+always being encrypted for the next thing that needs it - user, then submitter,
+then receiver
+
+- It would probably be fine to use native S3 signed URLs that are valid for 1
+week, because if the URL is exposed then the file you can fetch from it is
+encrypted so we can worry less about expiring the URLs as soon as possible
+
+- Alerting on unusual patterns of requests on signed URLs might still be nice to
+have, but that's getting into anomaly detection which isn't that easy to do and
+may be of little benefit if we go down this route compared to others
+
+- How long we need or want to keep files retrievable for depends on whether
+they're served encrypted or not, how long retrieval will take after submission,
+and whether it's feasible to expire links after a single use or when Form
+Builder is notified that the file has been successfully retrieved and stored
+elsewhere as knowing we've served the file successfully doesn't guarantee the
+other side has it.
+
+### Issues concerning the revoking if signed URLs:
+
+S3 signed URLs expire after a given time, and not after a number of uses - if we
+want to do the latter we would have to implement a proxy application
+
+Revoking a S3 signed URL on demand involves removing the permissions of the IAM
+user who signed the URL, so we couldn't expire individual URLs ourselves after
+we know they've been used successfully unless we also generate a new IAM user to
+sign each URL for each file. This is presumably possible but not ideal. So
+revoking signed URLs on demand may also mean using a proxy application.
+
+CMSs which retrieve files directly themselves are unlikely to be able to notify
+us when they've successfully fetched the file - a decrypting adapter could make
+this callback, but probably wouldn't know whether the CMS had stored the file.
+
+This whole question means that Form Builder needs not to care too much about
+what's happening a long way downstream.
+
+### Conclusion
+
+Considering all the points above option 6 has been chosen.
+
+It leaves a clear cut boundary between Form Builder and integrations. Although
+the responsibility of decrypting files is now in the hands of the receiver. The
+Form Builder team does not need a proxy application and S3 can be left to handle
+files.
+
+It deals with encryption: files are kept encrypted at rest and only decrypted
+when being processed or exiting the system.
+
+Signed URLs are less of a concern as the files themselves are encrypted as they
+leave S3.
+
+### First use case
+
+For HMCTS Complaints Form this would mean that the CMS would have to fetch the
+files through the adapter so they can be decrypted. So this is what a JSON
+submission including uploaded files looks like:
+
+- Form Builder makes JSON request (including S3 signed URLs) to adapter
+- The adapter decrypts the JSON, and POSTs the submitted data to the CMS,
+including adapter links to the files
+- CMS requests the files from the adapter
+- The adapter fetches the file from S3, decrypts it, and responds with it to the
+CMS
+- CMS stores the files
+
+This option takes a clear-cut approach to responsibilities and security. It's
+one of the more feasible options in the timescale we have for HMCTS complaints,
+since it doesn't involve building a proxy application.
 
 ## Consequences
 
-- Other systems can now easily integrate with form builder to further process
-user submissions including files uploaded
-- As signed URLs are being generated if this information were to be leaked,
-they would be able to access user files and lead back to form builder
+### Risks
+
+As for creating any API allowing for integrations there will always be the off
+chance that if any information is obtained by unintended audiences they could be
+able to access files.
+
+### Benefits
+
+The benefits of introducing these changes are that files in form submissions in
+Form Builder will now be available outside of Form Builder through an API. This
+means other systems will be able to process user form submissions. These will be
+available through a JSON API which should not be difficult for other systems
+to integrate with
+
+For the duration of handing over the files, the files remained encrypted
+throughout the Form Builder ecosystem except for several points in memory when
+being processed and when exiting the ecosystem.
