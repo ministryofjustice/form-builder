@@ -285,7 +285,8 @@ Form Builder team does not need a proxy application and S3 can be left to handle
 files.
 
 It deals with encryption: files are kept encrypted at rest and only decrypted
-when being processed or exiting the system.
+when being processed. They leave the form builder ecosystem encrypted allow the
+next system to decrypt the files their end.
 
 Signed URLs are less of a concern as the files themselves are encrypted as they
 leave S3.
