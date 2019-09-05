@@ -254,7 +254,7 @@ Builder is notified that the file has been successfully retrieved and stored
 elsewhere as knowing we've served the file successfully doesn't guarantee the
 other side has it.
 
-### Issues concerning the revoking if signed URLs:
+### Issues concerning the revoking of signed URLs:
 
 S3 signed URLs expire after a given time, and not after a number of uses - if we
 want to do the latter we would have to implement a proxy application
