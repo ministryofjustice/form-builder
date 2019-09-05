@@ -57,7 +57,7 @@ Pros:
 Cons:
 
 - Potentially a large POST body.
-- Files will be Base64 encoded which will increase size of payload and.
+- Files will be Base64 encoded which will increase size of payload and
 processing.
 - Clients will have to decode file.
 
@@ -186,7 +186,8 @@ There are actually several decisions involved in these options:
 Form Builder may help on an individual basis by building adapters outside the
 platform, preferably to be owned by another entity. However Form Builder should
 offer a mechanism that enables these entities to be able to integrate with other
-systems.
+systems. All the above options offer a way for other systems to integrate with
+Form Builder.
 
 ### Whether to send files to the receiver or let them know they should request them from Form Builder
 
@@ -195,18 +196,27 @@ basis this excludes options 1 & 4.
 
 ### Whether to encrypt the files
 
-Presumably with the PSK used to encrypt the JSON payload, since they will
-previously be encrypted for the submitter which has finished with them by this
-stage in one or both of:
+With regards to encryption there are 2 areas where the file can be encrypted:
 
-- At rest in S3.
+- At rest.
 - In transit to the receiver.
+
+Options 2 & 5 would require the file to be stored unencrypted for some period of
+time before handed over.
+
+Excluding TLS, for options 1, 4 & 6 the file is encrypted and required the
+client to decrypt with known PSK.
 
 ### How long to keep files retrievable for
 
 Whether directly available from S3 or through a proxy application by the
 receiver. In some use cases this may involve human intervention to get files
 into the CMS.
+
+Options 1 & 4 are the only push options regarding the transfer of files which
+leaves the client to hold the files indefinitely. Whereas the options are pull
+options and due to constraints of S3 the files will only be available for at
+most 1 week.
 
 ### Whether to use S3 native signed URLs or generate and manage our own signed URLs
 
@@ -215,36 +225,48 @@ If the latter, whether to only generate single-use signed URLs on request
 time-limited URLs, possibly with ability to revoke them on callback confirming
 that the receiver has successfully retrieved and stored the file.
 
+The negative of Form Builder managing its own signed URLs is the additional work
+required to build and maintain this feature. This application needs to maintain
+state so it knows what URLs are available, whether or not they've been used or 
+if they have expired or not.
+
+As a result choosing option 3 would require additional work.
+
 ### Issues concerning encryption:
 
 - If we don't encrypt the file for the receiver in S3, or make it available at a
 URL unencrypted, then we need to be much more careful about bucket
 misconfiguration, short lived URLs, revokable URLs, alerting on reuse of URLs,
 attempts to traverse/enumerate bucket contents should be considered to prevent
-attempts to gain access from unintended audiences.
+attempts to gain access from unintended audiences. This leaves a negative point
+for options 2, 3 & 5.
 
 - If we do encrypt the files in S3, we don't need to worry so much about
 accidental misconfiguration of the bucket or attempts to traverse/enumerate it -
-even if we don't have a proxy application in front of it.
+even if we don't have a proxy application in front of it. A pro for options 1, 4
+& 6.
 
 - If we encrypt the files in S3 and also serve them encrypted, then we don't
-need to worry as much about bucket-level access to the files.
+need to worry as much about bucket-level access to the files. This is a pro
+again for options 1, 4 & 6.
 
 - A proxy application is needed if the adapter does not have the responsibility
 of decrypting the files. A proxy would not be needed if the responsibility of
 decryption is moved to the adapter. However some kind of pre-shared key
-mechanism would be needed.
+mechanism would be needed. So option 3 would require building an extra
+application, where as option 6 just needs handing over a PSK.
 
 - This also follows the principle of all user-submitted data in Form Builder
 always being encrypted for the next thing that needs it - user, then submitter,
 then receiver. After the user uploads the file, it is processed then encrypted
 for storage ready for submission. On submission it will be accessed and
 re-encrypted ready for transmission to the receiver. The receiver will then
-decrypt the file with a PSK ready for further processing.
+decrypt the file with a PSK ready for further processing. Options 1, 4, & 6 are
+the only options where files are encrypted to the receiver.
 
-- It would probably be fine to use native S3 signed URLs that are valid for 1
-week, because if the URL is exposed then the file you can fetch from it is
-encrypted so we can worry less about expiring the URLs as soon as possible.
+- For option 6 it would probably be fine to use native S3 signed URLs that are
+valid for 1 week, because if the URL is exposed then the file you can fetch from
+is encrypted so we can worry less about expiring the URLs as soon as possible.
 
 - Alerting on unusual patterns of requests on signed URLs might still be nice to
 have, but that's getting into anomaly detection which isn't that easy to do and
@@ -255,7 +277,8 @@ they're served encrypted or not, how long retrieval will take after submission,
 and whether it's feasible to expire links after a single use or when Form
 Builder is notified that the file has been successfully retrieved and stored
 elsewhere as knowing we've served the file successfully doesn't guarantee the
-other side has it.
+other side has it. Having the files encrypted at rest is therefore beneficial
+therefore in favour of options 1, 4 & 6.
 
 ### Issues concerning the revoking of signed URLs:
 
@@ -274,6 +297,11 @@ this callback, but probably wouldn't know whether the CMS had stored the file.
 
 This whole question means that Form Builder needs not to care too much about
 what's happening a long way downstream.
+
+Options 1 & 4 don't expose S3 URLs so are excluded for this argument. For
+options 2, 3 & 5 the files are not encrypted therefore a concern whereas for
+option 6 is encrypted therefore less of a concern. Picking up a encrypted blob
+will only be an issue if the PSK is compromised as well.
 
 ### Conclusion
 
