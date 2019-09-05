@@ -237,7 +237,10 @@ mechanism would be needed.
 
 - This also follows the principle of all user-submitted data in Form Builder
 always being encrypted for the next thing that needs it - user, then submitter,
-then receiver
+then receiver. After the user uploads the file, it is processed then encrypted
+for storage ready for submission. On submission it will be accessed and
+re-encrypted ready for transmission to the receiver. The receiver will then
+decrypt the file with a PSK ready for further processing.
 
 - It would probably be fine to use native S3 signed URLs that are valid for 1
 week, because if the URL is exposed then the file you can fetch from it is
