@@ -28,16 +28,16 @@ which JSON submissions would eventually end up in will take very different
 approaches to ingesting files associated with a submission. This could include
 but not limited to:
 
-- File is encoded and embedded in a POST request to the CMS
+- File is encoded and embedded in a POST request to the CMS.
 - POST a URL to the file for the CMS to retrieve via HTTP sync or async and
-store itself
+store itself.
 - POST a URL to the file for the CMS to retrieve via (S)FTP sync or async and
-store itself
+store itself.
 - POST a URL to the file where the CMS will expect to be able to retrieve it
-from on demand forever
+from on demand forever.
 - POST a URL to the file where the CMS expects its user to manually download
-the file (and then reupload into the CMS)
-- (S)FTP into the CMS
+the file (and then reupload into the CMS).
+- (S)FTP into the CMS.
 
 Form Builder is not in the business of supporting all these options directly,
 just as it is not in the business of making data submission requests using
@@ -51,15 +51,15 @@ We have discussed the pros and cons of 6 possible options:
 
 Pros:
 
-- Super simple with a single POST of entire payload
-- We can delete all data once submission has been handed over
+- Super simple with a single POST of entire payload.
+- We can delete all data once submission has been handed over.
 
 Cons:
 
-- Potentially a large POST body
-- Files will be Base64 encoded which will increase size of payload and
-processing
-- Clients will have to decode file
+- Potentially a large POST body.
+- Files will be Base64 encoded which will increase size of payload and.
+processing.
+- Clients will have to decode file.
 
 ### 2. Embed signed many use AWS S3 URL in JSON
 
@@ -69,17 +69,17 @@ decrypt the file.
 
 Pros:
 
-- Lightweight JSON payload
-- S3 deals with files
+- Lightweight JSON payload.
+- S3 deals with files.
 
 Cons:
 
-- We must retain files for client to pick up
-- Client must pick up file within 1 week (S3 constraint)
-- We can only retain files for 28 days
-- An Exposed link will lead to unencrypted files being available for download
+- We must retain files for client to pick up.
+- Client must pick up file within 1 week (S3 constraint).
+- We can only retain files for 28 days.
+- An Exposed link will lead to unencrypted files being available for download.
 - If client does not pick up data within 28 days the submission files will be
-lost
+lost.
 
 ### 3. Embed signed Form Builder URL.
 
@@ -92,34 +92,34 @@ proxy file upload and download, encrypting and decrypting files respectively.
 
 Pros:
 
-- Lightweight JSON payload
-- S3 deals with files
-- Finer grain control of tokens
-- We are able to regenerate new tokens up to the maximum 28 day limit
+- Lightweight JSON payload.
+- S3 deals with files.
+- Finer grain control of tokens.
+- We are able to regenerate new tokens up to the maximum 28 day limit.
 
 Cons:
 
-- We must retain files for client to pick up
-- We can only retain files for 28 days
-- An Exposed link will lead to unencrypted files being available for download
+- We must retain files for client to pick up.
+- We can only retain files for 28 days.
+- An Exposed link will lead to unencrypted files being available for download.
 - If client does not pick up data within 28 days the submission files will be
-lost
-- Requires additional ingress
-- Need another Form Builder Application to handle this flow
-- This will likely become a performance bottleneck
-- Still constrained by S3 28 day limit
+lost.
+- Requires additional ingress.
+- Need another Form Builder Application to handle this flow.
+- This will likely become a performance bottleneck.
+- Still constrained by S3 28 day limit.
 
 ### 4. Multipart POST which includes JSON and files
 
 Pros:
 
-- No need to Base64 encode files
-- We can delete all data once submission has been handed over
+- No need to Base64 encode files.
+- We can delete all data once submission has been handed over.
 
 Cons:
 
-- Potentially large POST request
-- Need some sort of convention to tie multipart files to JSON representation
+- Potentially large POST request.
+- Need some sort of convention to tie multipart files to JSON representation.
 
 ### 5. Decrypt S3 files after submission and embed signed S3 URL
 
@@ -134,48 +134,48 @@ Pros:
 
 Cons:
 
-- We must retain files for client to pick up
-- Client must pick up file within 1 week (S3 constraint)
-- We can only retain files for 28 days
-- An Exposed link will lead to unencrypted files being available for download
+- We must retain files for client to pick up.
+- Client must pick up file within 1 week (S3 constraint).
+- We can only retain files for 28 days.
+- An Exposed link will lead to unencrypted files being available for download.
 - If client does not pick up data within 28 days the submission files will be
-lost
+lost.
 - Work needs to be done so post submission files are decrypted in S3 and
-associated back to submission
-- We will now be storing some files in S3 which are unencrypted
+associated back to submission.
+- We will now be storing some files in S3 which are unencrypted.
 
 ### 6. Store and serve PSK-encrypted files directly from S3
 
 - Expect the receiver to retrieve the files as opposed to Form Builder sending
-them
+them.
 - Move the files to a separate S3 bucket (so it can have different permissions
-from the user datastore bucket) as part of processing a JSON submission
-- Encrypt the files with a pre-shared key (PSK)
+from the user datastore bucket) as part of processing a JSON submission.
+- Encrypt the files with a pre-shared key (PSK).
 - Serve the files encrypted, and expect the receiver to decrypt them with the
-PSK
-- Use S3 native signed URLs (without a proxy application)
-- Have a 1 week expiry time on the signed URLs
+PSK.
+- Use S3 native signed URLs (without a proxy application).
+- Have a 1 week expiry time on the signed URLs.
 
 Pros:
 
-- Lightweight JSON payload
-- S3 deals with files
-- Files are encrypted for the next thing that needs them
-- Files continue to be stored encrypted
+- Lightweight JSON payload.
+- S3 deals with files.
+- Files are encrypted for the next thing that needs them.
+- Files continue to be stored encrypted.
 
 Cons:
 
-- We must retain files for client to pick up
-- Client must pick up file within 1 week (S3 constraint)
+- We must retain files for client to pick up.
+- Client must pick up file within 1 week (S3 constraint).
 - We can only retain files for 28 days, so if client does not pick up data
-within 28 days the submission files will be lost
+within 28 days the submission files will be lost.
 - The additional complexity it puts onto an adapter may put some users off this
 approach altogether, resulting in them using email submissions (probably less
-secure and more manual work involved) or not using Form Builder at all
+secure and more manual work involved) or not using Form Builder at all.
 - We may end up building and maintaining a large number of adapters ourselves,
 but outside the bounds of the platform, resulting in us still having to deal
 with all the complexity of integrating with all the CMSs but with more layers of
-abstraction involved
+abstraction involved.
 
 ## Decision
 
@@ -186,12 +186,12 @@ There are actually several decisions involved in these options:
 Form Builder may help on an individual basis by building adapters outside the
 platform, preferably to be owned by another entity. However Form Builder should
 offer a mechanism that enables these entities to be able to integrate with other
-systems
+systems.
 
 ### Whether to send files to the receiver or let them know they should request them from Form Builder
 
 The latter is more likely to be reliable and scalable, so proceeding on this
-basis this excludes options 1 & 4
+basis this excludes options 1 & 4.
 
 ### Whether to encrypt the files
 
@@ -199,8 +199,8 @@ Presumably with the PSK used to encrypt the JSON payload, since they will
 previously be encrypted for the submitter which has finished with them by this
 stage in one or both of:
 
-- At rest in S3
-- In transit to the receiver
+- At rest in S3.
+- In transit to the receiver.
 
 ### How long to keep files retrievable for
 
@@ -225,7 +225,7 @@ attempts to gain access from unintended audiences.
 
 - If we do encrypt the files in S3, we don't need to worry so much about
 accidental misconfiguration of the bucket or attempts to traverse/enumerate it -
-even if we don't have a proxy application in front of it
+even if we don't have a proxy application in front of it.
 
 - If we encrypt the files in S3 and also serve them encrypted, then we don't
 need to worry as much about bucket-level access to the files.
@@ -241,11 +241,11 @@ then receiver
 
 - It would probably be fine to use native S3 signed URLs that are valid for 1
 week, because if the URL is exposed then the file you can fetch from it is
-encrypted so we can worry less about expiring the URLs as soon as possible
+encrypted so we can worry less about expiring the URLs as soon as possible.
 
 - Alerting on unusual patterns of requests on signed URLs might still be nice to
 have, but that's getting into anomaly detection which isn't that easy to do and
-may be of little benefit if we go down this route compared to others
+may be of little benefit if we go down this route compared to others.
 
 - How long we need or want to keep files retrievable for depends on whether
 they're served encrypted or not, how long retrieval will take after submission,
@@ -257,7 +257,7 @@ other side has it.
 ### Issues concerning the revoking of signed URLs:
 
 S3 signed URLs expire after a given time, and not after a number of uses - if we
-want to do the latter we would have to implement a proxy application
+want to do the latter we would have to implement a proxy application.
 
 Revoking a S3 signed URL on demand involves removing the permissions of the IAM
 user who signed the URL, so we couldn't expire individual URLs ourselves after
@@ -319,7 +319,7 @@ The benefits of introducing these changes are that files in form submissions in
 Form Builder will now be available outside of Form Builder through an API. This
 means other systems will be able to process user form submissions. These will be
 available through a JSON API which should not be difficult for other systems
-to integrate with
+to integrate with.
 
 For the duration of handing over the files, the files remained encrypted
 throughout the Form Builder ecosystem except for several points in memory when
