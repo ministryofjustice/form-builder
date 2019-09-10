@@ -7,9 +7,8 @@ Once a user’s data has been collected and the user has confirmed that the data
 [Submission overview diagram](submitting--overview.md)
 
 
-## Default output
-
-### Send copy to user
+## Default output (email)
+### Email copy to the user
 
 In order to send a copy to the user, there must be an email address to send to:
 
@@ -22,7 +21,7 @@ In order to send a copy to the user, there must be an email address to send to:
 - PDF output
   - `/api/submitter/pdf/default/:submissionId.pdf`
 
-### Send application to service team via email
+### Email a copy to the service team
 
 In order to send the data to the service team, there must be an email address to send to. This address is set through the Publisher as a config param `SERVICE_OUTPUT_EMAIL`
 
@@ -34,6 +33,17 @@ In order to send the data to the service team, there must be an email address to
 - JSON (TODO)
 - CSV (TODO)
 
+## JSON output
+
+Form submitter can send a webhook to your backend service to process submissions automatically.
+A representation of the users' answers is in JSON format data to a chosen destination.
+This JSON data is encrypted using a shared key via the [JWE standard](https://tools.ietf.org/html/rfc7516).
+
+An example of custom integration is the  application cis the [hmcts-complaints-formbuilder-adapter](https://github.com/ministryofjustice/hmcts-complaints-formbuilder-adapter)
+
+Details to integrate with a custom endpoint
+- The Destination URL of the JSON paylaod is a Publisher config parameter  `SERVICE_OUTPUT_JSON_ENDPOINT.`
+- The JWE shared key can be set via Publisher using the `SERVICE_OUTPUT_JSON_KEY.` config parameter
 
 ## Output specification
 
