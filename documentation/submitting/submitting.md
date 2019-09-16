@@ -36,10 +36,10 @@ In order to send the data to the service team, there must be an email address to
 ## JSON output
 
 Form submitter can send a webhook to your backend service to process submissions automatically.
-A representation of the users' answers is in JSON format data to a chosen destination.
+A representation of the users' answers is sent in JSON format to a chosen destination.
 This JSON data is encrypted using a shared key via the [JWE standard](https://tools.ietf.org/html/rfc7516).
 
-An example of custom integration is the  application cis the [hmcts-complaints-formbuilder-adapter](https://github.com/ministryofjustice/hmcts-complaints-formbuilder-adapter)
+An example of custom integration is the application [hmcts-complaints-formbuilder-adapter](https://github.com/ministryofjustice/hmcts-complaints-formbuilder-adapter)
 
 Details to integrate with a custom endpoint
 - The Destination URL of the JSON payload is a Publisher config parameter  `SERVICE_OUTPUT_JSON_ENDPOINT.`
