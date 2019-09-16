@@ -31,8 +31,24 @@ In order to send the data to the service team, there must be an email address to
   - `/api/submitter/email/team`
 - PDF output
   - `/api/submitter/pdf/default/:submissionId.pdf`
-- JSON (TODO)
 - CSV (TODO)
+
+## JSON output
+
+It is possible to get raw JSON for a submission from the Runner application. Currently this is forwarded onto adapters to make external API calls. In order to use this, two config params are required. `SERVICE_OUTPUT_JSON_ENDPOINT` and `SERVICE_OUTPUT_JSON_KEY`.
+
+#### SERVICE_OUTPUT_JSON_ENDPOINT
+
+The endpoint to which this JSON will be forwarded.
+
+#### SERVICE_OUTPUT_JSON_KEY
+
+A JWE key used for encrypting the data.
+This key has to be exactly 16 bytes.
+
+
+- API endpoint
+  - `/api/submitter/json/default/:submissionId.json`
 
 
 ## Output specification
@@ -50,4 +66,3 @@ The [Submitter](https://github.com/ministryofjustice/fb-submitter) is an app tha
 ## Submitter API
 
 - [Submitter API](submitter--api.md)
-
