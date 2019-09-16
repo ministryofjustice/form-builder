@@ -16,10 +16,13 @@
 
   Sending users’ data to final destination
 
+- [Integrating](integrating/integrating.md)
+
+  Integrating forms with 3rd pary applications
+
 ## Platform
 
 - [Platform overview](platform/platform.md)
-
 
 ## Misc
 
