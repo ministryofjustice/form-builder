@@ -52,5 +52,16 @@ You can decrypt the payload using the shared secret key that you set as the
 [HMCTS Complaints Adapter](https://github.com/ministryofjustice/hmcts-complaints-formbuilder-adapter)
 
 ## Encrypted Files
+### Optics
 
-TODO
+Files sent to 3rd party integrations are encrypted at rest and in transit within the Form Builder infrastructure. Decryption only happens within the [Custom Adapter](https://github.com/ministryofjustice/hmcts-complaints-formbuilder-adapter) which sits outside of the infrastructure that we own.
+
+On submission, the custom adapter will request publicly accessible URLs from the [User Filestore](https://github.com/ministryofjustice/fb-user-filestore) for each file. The User Filestore will fetch the files from S3 (previously uploaded as part of any submission), decrypt them, re-encrypt them with unique randomly generated encryption keys, and upload them to a new bucket.
+
+Once uploaded to the new bucket, the [Presigned URLs](https://docs.aws.amazon.com/AmazonS3/latest/dev/PresignedUrlUploadObject.html) for the files along with the encryption keys will be sent over to the adapter.
+
+The adapter will persist the URL and encryption keys for up to 7 days. The adapter will then expose an endpoint for the 3rd party to retrieve these files.
+
+On requesting this endpoint, the adapter will fetch the file from S3 (using the pre-signed URL), decrypt the file and serve it.
+
+*The S3 presigned URLs have an expiration time 900 seconds (15 minutes).*
