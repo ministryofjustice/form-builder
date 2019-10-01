@@ -16,13 +16,12 @@ There are a few requirements for setting up and then using the JSON output:
 Your form needs to be configured in Publisher to enable the JSON output feature. You must set both:
 
 a. `SERVICE_OUTPUT_JSON_ENDPOINT` which is the external endpoint you want JSON sent to.
-
 b. `SERVICE_OUTPUT_JSON_KEY` which is the 16 byte shared secret used for encryption.
 
 ### 2. Encryption & Decryption
 
 The JSON output is sent as an encrypted payload, you will need to decrypt it to use it.
-Images are also attached as URLs and stored encryted.
+Images are also attached as URLs and stored encrypted.
 
 ## JSON Payload
 
@@ -35,8 +34,22 @@ The JSON payload is of the shape:
     'submissionAnswers': {
       'first_name': 'Jim',
       'last_name': 'Morrison',
-      'email_address': 'test@test.com',
       'other_input_name': 'answer'
+      'attachments': [
+        {
+          url: 'example.com/1',
+          encryption_key: 'bar1',
+          encryption_iv: 'baz1',
+          mimetype: 'application/pdf',
+          filename: 'form1.pdf'
+        }, {
+          url: 'example.com/2',
+          encryption_key: 'bar2',
+          encryption_iv: 'baz2',
+          mimetype: 'application/pdf',
+          filename: 'form2.pdf'
+        }
+      ]
     }
   }
 ```
@@ -52,16 +65,27 @@ You can decrypt the payload using the shared secret key that you set as the
 [HMCTS Complaints Adapter](https://github.com/ministryofjustice/hmcts-complaints-formbuilder-adapter)
 
 ## Encrypted Files
-### Optics
 
-Files sent to 3rd party integrations are encrypted at rest and in transit within the Form Builder infrastructure. Decryption only happens within the [Custom Adapter](https://github.com/ministryofjustice/hmcts-complaints-formbuilder-adapter) which sits outside of the infrastructure that we own.
+### Attachment payload
 
-On submission, the custom adapter will request publicly accessible URLs from the [User Filestore](https://github.com/ministryofjustice/fb-user-filestore) for each file. The User Filestore will fetch the files from S3 (previously uploaded as part of any submission), decrypt them, re-encrypt them with unique randomly generated encryption keys, and upload them to a new bucket.
+Attachments are sent in the JSON payload as an `attachments` array. Each attachment
+object has the following data:
 
-Once uploaded to the new bucket, the [Presigned URLs](https://docs.aws.amazon.com/AmazonS3/latest/dev/PresignedUrlUploadObject.html) for the files along with the encryption keys will be sent over to the adapter.
+- `url` which is the URL to the encrypted file data. This expires after 15 minutes.
+- `encryption_key` which is the key needed to decrypt the file.
+- `encryption_iv` which is the initialisation vector needed to decrypt the file.
+- `mimetype` which is the mimetype of the file.
+- `filename` which is the user generated name of the file.
 
-The adapter will persist the URL and encryption keys for up to 7 days. The adapter will then expose an endpoint for the 3rd party to retrieve these files.
+### Decrypting Files
 
-On requesting this endpoint, the adapter will fetch the file from S3 (using the pre-signed URL), decrypt the file and serve it.
+Files are encrypted using the `AES-256-CBC` protocol. You need both the `encryption_key` and
+`encryption_iv` to decrypt the file. These values are unique per file. You can see an example
+of decryption in the
+[HMCTS Complaints Adapter](https://github.com/ministryofjustice/hmcts-complaints-formbuilder-adapter/blob/master/app/controllers/attachments_controller.rb#L4).
 
-*The S3 presigned URLs have an expiration time 900 seconds (15 minutes).*
+### Links Expire
+
+Please note that the URLs to the encrypted files expire 15 minutes after being
+generated. You cannot re-request new URLs so you will need to retrieve the file
+within this timeframe.
