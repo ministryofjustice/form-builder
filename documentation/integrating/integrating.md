@@ -21,7 +21,7 @@ b. `SERVICE_OUTPUT_JSON_KEY` which is the 16 byte shared secret used for encrypt
 ### 2. Encryption & Decryption
 
 The JSON output is sent as an encrypted payload, you will need to decrypt it to use it.
-Images are also attached as URLs and stored encryted.
+Images are also attached as URLs and stored encrypted.
 
 ## JSON Payload
 
@@ -71,7 +71,7 @@ You can decrypt the payload using the shared secret key that you set as the
 Attachments are sent in the JSON payload as an `attachments` array. Each attachment
 object has the following data:
 
-- `url` which is the url to the encrypted file data. This expires after 15 minutes.
+- `url` which is the URL to the encrypted file data. This expires after 15 minutes.
 - `encryption_key` which is the key needed to decrypt the file.
 - `encryption_iv` which is the initialisation vector needed to decrypt the file.
 - `mimetype` which is the mimetype of the file.
@@ -86,6 +86,6 @@ of decryption in the
 
 ### Links Expire
 
-Please note that the urls to the encrypted files expire 15 minutes after being
+Please note that the URLs to the encrypted files expire 15 minutes after being
 generated. You cannot re-request new URLs so you will need to retrieve the file
 within this timeframe.
