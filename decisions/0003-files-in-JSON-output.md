@@ -337,6 +337,8 @@ This option takes a clear-cut approach to responsibilities and security. It's
 one of the more feasible options in the timescale we have for HMCTS complaints,
 since it doesn't involve building a proxy application.
 
+![alt text](0003-files-in-JSON-output-diagram.png "Diagram of First use case")
+
 ## Consequences
 
 ### Risks
@@ -356,3 +358,4 @@ to integrate with.
 For the duration of handing over the files, the files remained encrypted
 throughout the Form Builder ecosystem except for several points in memory when
 being processed and when exiting the ecosystem.
+
