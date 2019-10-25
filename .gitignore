@@ -48,3 +48,9 @@ jspm_packages
 
 # Visual Studio Code files
 .vscode
+
+# User-defined NPM configuration
+.npmrc
+
+# User-defined NVM configuration
+.nvmrc

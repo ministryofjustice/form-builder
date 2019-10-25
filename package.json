@@ -4,18 +4,14 @@
   "description": "Form Builder technical documentation and information",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "generate:images": "node ./bin/generate-images.js"
+    "images:generate": "node ./bin/images-generate"
   },
+  "author": "Form Builder Team <form-builder-team@digital.justice.gov.uk>",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ministryofjustice/form-builder.git"
   },
-  "author": "formbuilder@digital.justice.gov.uk",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/ministryofjustice/form-builder/issues"
-  },
-  "homepage": "https://github.com/ministryofjustice/form-builder#readme",
   "dependencies": {
     "@ministryofjustice/eslint-config-fb": "^1.1.2",
     "glob-promise": "^3.4.0",
