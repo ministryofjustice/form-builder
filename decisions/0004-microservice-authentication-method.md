@@ -29,7 +29,7 @@ JWT verification allows for all backend APIs to check the origin of a request is
 Applications can use the token given to them from a running form to make new requests to sibling APIs on its behalf.
 Therefore APIs do not possess private keys (which would allow them to make arbitrary calls)
 
-User data continues using its own layer of protection using encrypted user tokens however this is now incoperted into JWT in the `sub` (subject) claim.
+User data continues using its own layer of protection using encrypted user tokens however this is now incorporated into JWT in the `sub` (subject) claim.
 
 ## Consequences
 
