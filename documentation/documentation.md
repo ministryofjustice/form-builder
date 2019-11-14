@@ -20,6 +20,10 @@
 
   Integrating forms with 3rd pary applications
 
+- [Secrets Management](secrets/secrets.md)
+
+  Managing secrets required to run the applications
+
 ## Platform
 
 - [Platform overview](platform/platform.md)
