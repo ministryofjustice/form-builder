@@ -24,6 +24,10 @@
 
   Managing secrets required to run the applications
 
+- [NPM](npm/npm.md)
+
+  Publishing packages to NPM
+
 ## Platform
 
 - [Platform overview](platform/platform.md)
