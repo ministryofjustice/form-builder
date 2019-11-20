@@ -102,13 +102,6 @@ Requests should be checked for the presence of `encrypted_user_id_and_token` (as
     - code: `400`
     - name: `invalid.virus`
     - virus_name: {virus_name}
-- Check file can be opened
-  - Error if file is password-protected
-    - code: `400`
-    - name: `invalid.password-protected`
-  - Error if file is unopenable
-    - code: `400`
-    - name: `invalid.unopenable`
 
 ###  C. Store file
 
