@@ -24,6 +24,10 @@
 
   Managing secrets required to run the applications
 
+- [NPM](npm/npm.md)
+
+  Publishing packages to NPM
+
 - [Leavers](leavers/leavers.md)
 
   Revoking access to Form Builder secrets and infrastructure
