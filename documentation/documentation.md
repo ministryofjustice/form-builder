@@ -28,6 +28,10 @@
 
   Publishing packages to NPM
 
+- [Leavers](leavers/leavers.md)
+
+  Revoking access to Form Builder secrets and infrastructure
+
 ## Platform
 
 - [Platform overview](platform/platform.md)
