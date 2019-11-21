@@ -14,6 +14,10 @@ Please see the [Secrets](../secrets/secrets.md) documentation for more informati
 
 Please speak to one of the technical architects about this.
 
+## NPM
+
+Remove user from `ministryofjustice` organisation.
+
 ## Complete the MOJ leavers form
 
 This is the final step that will remove a user from the rest of the services at MOJ.
