@@ -14,7 +14,7 @@ const args = require('yargs')
 
 const path = require('path')
 const fs = require('fs')
-const {promisify} = require('util')
+const { promisify } = require('util')
 const readFile = promisify(fs.readFile)
 const writeFile = promisify(fs.writeFile)
 const childProcess = require('child_process')
@@ -47,7 +47,7 @@ const getTOCFiles = async (tocLines) => {
       const lines = fileContents.split('\n').reverse()
       let status = ''
       for (let index = 0; index < lines.length; index++) {
-        let match = lines[index].match(/^(\w+ed)\b.*/)
+        const match = lines[index].match(/^(\w+ed)\b.*/)
         if (match) {
           status = match[1]
           break
