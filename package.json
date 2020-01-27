@@ -1,6 +1,6 @@
 {
   "name": "form-builder",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Form Builder technical documentation and information",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
