@@ -17,7 +17,7 @@ const args = require('yargs')
   `)
   .argv
 
-const {debug} = args
+const { debug } = args
 
 const util = require('util')
 const path = require('path')
@@ -276,7 +276,7 @@ const generateMermaidImages = async (dir, outputDir, cssFile) => {
       // inject style block into svg file
       .then(() => readFile(svgPath))
       .then(svgFile => {
-        let svgFileContents = svgFile.toString().replace(/<\/style><g>/, (m) => {
+        const svgFileContents = svgFile.toString().replace(/<\/style><g>/, (m) => {
           return `</style>${styleDef}<g>`
         })
         return svgFileContents

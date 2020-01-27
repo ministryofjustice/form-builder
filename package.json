@@ -1,10 +1,12 @@
 {
   "name": "form-builder",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Form Builder technical documentation and information",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "images:generate": "node ./bin/images-generate"
+    "images:generate": "node ./bin/images-generate",
+    "lint": "eslint bin/adr-generate-toc bin/images-generate",
+    "lint:fix": "npm run lint -- --fix"
   },
   "author": "Form Builder Team <form-builder-team@digital.justice.gov.uk>",
   "repository": {
@@ -13,7 +15,13 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@ministryofjustice/eslint-config-fb": "^1.1.9",
+    "babel-eslint": "^10.0.3",
+    "eslint": "^6.8.0",
+    "eslint-config-standard": "^14.1.0",
+    "eslint-plugin-import": "^2.20.0",
+    "eslint-plugin-node": "^11.0.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
     "glob-promise": "^3.4.0",
     "mermaid.cli": "^0.5.1",
     "mkdirp": "^1.0.3",
