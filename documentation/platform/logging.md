@@ -108,4 +108,4 @@ Due to the fact that the logs contain the user's data and other sensitive inform
 
 Provided by Cloud Platform's Prometheus and Alertmanager instances
 
-https://ministryofjustice.github.io/cloud-platform-user-docs/03-other-topics/006-prometheus
+- [Grafana Dashboard](https://grafana.cloud-platform.service.justice.gov.uk/d/-hXgWMWWk/form-builder)
