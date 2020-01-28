@@ -84,34 +84,13 @@ uses
 
 ## Microservice clients
 
-### [fb-user-datastore-client-node](https://github.com/ministryofjustice/fb-user-datastore-client-node)
+### [fb-client](https://github.com/ministryofjustice/fb-client)
 
-User Datastore client
+This includes:
 
-uses
-
-- fb-jwt-client-node
-
-### [fb-user-filestore-client-node](https://github.com/ministryofjustice/fb-user-filestore-client-node)
-
-User Filestore client
-
-uses
-
-- fb-jwt-client-node
-
-### [fb-submitter-client-node](https://github.com/ministryofjustice/fb-submitter-client-node)
-
-Submitter client
-
-uses
-
-- fb-jwt-client-node
-
-### [fb-jwt-client-node](https://github.com/ministryofjustice/fb-jwt-client-node)
-
-Base client for making JSON Web Token-backed requests
-
+- User Datastore client
+- User Filestore client
+- Submitter client
 
 ## User Datastore
 
