@@ -6,13 +6,11 @@ It uses [JSON](glossary#json-and-json-schema) as its data interchange format and
 
 Form Builder uses [specification data](about-data#specification-data) to create [service data](about-data#service-data) that is used to generate a service that collects [user data](about-data#user-data).
 
-## Specifications
+## Specifications and Components
 
-Specifications for components and pages are defined as [JSON schemas](../specifications/schemas.md)
+Specifications for components and pages are defined as [JSON schemas](../specifications/schemas.md).
 
-## Core components
-
-The core components are defined in [fb-components-core](https://github.com/ministryofjustice/fb-components-core)
+Specifications and components are contained in [fb-components](https://github.com/ministryofjustice/fb-components)
 
 ## Editor
 
