@@ -12,7 +12,7 @@
 - [MoJ Cloud Platform](#moj-cloud-platform)
 - [Utitlies](#utilities)
 - [Form repos](#form-repos)
-- [Browser Automation Tests](#browser-automation-tests)
+- [Integration Tests](#integration-tests)
 
 ## Specifications and components
 
