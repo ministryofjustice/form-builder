@@ -34,16 +34,6 @@ uses
 - govuk_frontend
 - fb-specification
 
-<!--
-### [fb-documentation](https://github.com/ministryofjustice/fb-documentation)
-
-Form Builder documentation **(Currently broken)**
-
-uses
-
-- fb-nunjucks-helpers
--->
-
 ## Editor
 
 ### [fb-editor-node](https://github.com/ministryofjustice/fb-editor-node)
