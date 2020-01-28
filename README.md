@@ -13,4 +13,3 @@ It uses [JSON](documentation/glossary.md#json-and-json-schema) as its data inter
 
 ### About this repo
 - [Tools](tools.md)
-- [Contributing](contributing.md)
