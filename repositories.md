@@ -169,12 +169,8 @@ Example service
 
 Base service to duplicate
 
-## Browser Automation Tests
+## Integration Tests
 
-### [fb-automated-tests](https://github.com/ministryofjustice/fb-automated-tests)
+### [fb-acceptance-tests](https://github.com/ministryofjustice/fb-acceptance-tests)
 
-Browser automation tests using headless Chrome, which tests a particular form
-
-uses
-
-- eslint-config-fb
+Headless browser automation tests, which tests forms in a docker-compose environment
