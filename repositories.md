@@ -12,7 +12,7 @@
 - [MoJ Cloud Platform](#moj-cloud-platform)
 - [Utitlies](#utilities)
 - [Form repos](#form-repos)
-- [Browser Automation Tests](#browser-automation-tests)
+- [Integration Tests](#integration-tests)
 
 ## Specifications and components
 
@@ -25,7 +25,7 @@ uses
 - fb-utils-node
 - eslint-config-fb
 
-### [fb-components-core](https://github.com/ministryofjustice/fb-components-core)
+### [fb-components](https://github.com/ministryofjustice/fb-components)
 
 Form Builder core component schemas and associated nunjucks macros
 
@@ -33,16 +33,6 @@ uses
 
 - govuk_frontend
 - fb-specification
-
-<!--
-### [fb-documentation](https://github.com/ministryofjustice/fb-documentation)
-
-Form Builder documentation **(Currently broken)**
-
-uses
-
-- fb-nunjucks-helpers
--->
 
 ## Editor
 
@@ -73,7 +63,6 @@ Deployment & infrastructure provisioning of the Publisher app - [fb-publisher-de
 Deployed on the Cloud Platform in these environments:
 
 [Test](https://fb-publisher-test.apps.live-1.cloud-platform.service.justice.gov.uk)
-[Integration](https://fb-publisher-integration.apps.live-1.cloud-platform.service.justice.gov.uk)
 [Live](https://fb-publisher-live.apps.live-1.cloud-platform.service.justice.gov.uk)
 
 ## Runner
@@ -94,34 +83,13 @@ uses
 
 ## Microservice clients
 
-### [fb-user-datastore-client-node](https://github.com/ministryofjustice/fb-user-datastore-client-node)
+### [fb-client](https://github.com/ministryofjustice/fb-client)
 
-User Datastore client
+This includes:
 
-uses
-
-- fb-jwt-client-node
-
-### [fb-user-filestore-client-node](https://github.com/ministryofjustice/fb-user-filestore-client-node)
-
-User Filestore client
-
-uses
-
-- fb-jwt-client-node
-
-### [fb-submitter-client-node](https://github.com/ministryofjustice/fb-submitter-client-node)
-
-Submitter client
-
-uses
-
-- fb-jwt-client-node
-
-### [fb-jwt-client-node](https://github.com/ministryofjustice/fb-jwt-client-node)
-
-Base client for making JSON Web Token-backed requests
-
+- User Datastore client
+- User Filestore client
+- Submitter client
 
 ## User Datastore
 
@@ -152,12 +120,6 @@ Provides a simple GET/POST JSON API to achieve that.
 ## MoJ Cloud Platform
 
 ### [cloud-platform-environments](https://github.com/ministryofjustice/cloud-platform-environments)
-
-Cloud Platform Environments k8s and terraform configuration files
-
-### [fb-cloud-platform-environments](https://github.com/ministryofjustice/fb-cloud-platform-environments)
-
-Generates Cloud Platform Environments k8s and terraform config for Form Builder namespaces
 
 ## Utilities
 
@@ -206,12 +168,8 @@ Example service
 
 Base service to duplicate
 
-## Browser Automation Tests
+## Integration Tests
 
-### [fb-automated-tests](https://github.com/ministryofjustice/fb-automated-tests)
+### [fb-acceptance-tests](https://github.com/ministryofjustice/fb-acceptance-tests)
 
-Browser automation tests using headless Chrome, which tests a particular form
-
-uses
-
-- eslint-config-fb
+Headless browser automation tests, which tests forms in a docker-compose environment

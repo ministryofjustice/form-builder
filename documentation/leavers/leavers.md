@@ -22,4 +22,4 @@ Remove user from `ministryofjustice` organisation.
 
 This is the final step that will remove a user from the rest of the services at MOJ.
 
-[Leavers form](https://moj-leavers-form-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/)
+[Leavers form](https://leavers.form.service.justice.gov.uk/)
