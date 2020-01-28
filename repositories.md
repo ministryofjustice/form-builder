@@ -122,12 +122,6 @@ Provides a simple GET/POST JSON API to achieve that.
 
 ### [cloud-platform-environments](https://github.com/ministryofjustice/cloud-platform-environments)
 
-Cloud Platform Environments k8s and terraform configuration files
-
-### [fb-cloud-platform-environments](https://github.com/ministryofjustice/fb-cloud-platform-environments)
-
-Generates Cloud Platform Environments k8s and terraform config for Form Builder namespaces
-
 ## Utilities
 
 ### [fb-deploy-utils](https://github.com/ministryofjustice/fb-deploy-utils)
