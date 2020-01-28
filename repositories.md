@@ -25,7 +25,7 @@ uses
 - fb-utils-node
 - eslint-config-fb
 
-### [fb-components-core](https://github.com/ministryofjustice/fb-components-core)
+### [fb-components](https://github.com/ministryofjustice/fb-components)
 
 Form Builder core component schemas and associated nunjucks macros
 
