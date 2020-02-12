@@ -97,7 +97,6 @@ Stores encrypted data entered by users on the Runner forms.
 
 Provides a simple GET/POST JSON API to achieve that.
 
-
 ## User Filestore
 
 ### [fb-user-filestore](https://github.com/ministryofjustice/fb-user-filestore)
@@ -106,6 +105,11 @@ Stores encrypted files uploaded by users to the Runner forms.
 
 Provides a simple GET/POST JSON API to achieve that.
 
+## Anti-virus
+
+### [fb-av](https://github.com/ministryofjustice/fb-av)
+
+Provides anti-virus for the filestore. It uses ClamAV under the hood
 
 ## Submitter
 
