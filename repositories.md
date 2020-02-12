@@ -121,6 +121,12 @@ Provides a simple GET/POST JSON API to achieve that.
 
 This API allows PDFs to be generated from a JSON payload. It uses `pdfkit` and `wkhtmltopdf` under the hood
 
+## Service Token Cache
+
+### [fb-service-token-cache](https://github.com/ministryofjustice/fb-service-token-cache)
+
+Requests between components are signed with private keys and verified with public keys. This service holds the public keys for the various components
+
 ## MoJ Cloud Platform
 
 ### [cloud-platform-environments](https://github.com/ministryofjustice/cloud-platform-environments)
