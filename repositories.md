@@ -115,6 +115,12 @@ Once a user on a Runner service has completed their journey, clicking the final 
 
 Provides a simple GET/POST JSON API to achieve that.
 
+## PDF Generator
+
+### [fb-pdf-generator](https://github.com/ministryofjustice/fb-pdf-generator)
+
+This API allows PDFs to be generated from a JSON payload. It uses `pdfkit` and `wkhtmltopdf` under the hood
+
 ## MoJ Cloud Platform
 
 ### [cloud-platform-environments](https://github.com/ministryofjustice/cloud-platform-environments)
