@@ -56,9 +56,7 @@ Form Builder User Guide
 
 UI - [fb-publisher](https://github.com/ministryofjustice/fb-publisher)
 
-Service build/deploy PoC scripts - [fb-publisher-scripts](https://github.com/ministryofjustice/fb-publisher-scripts)
-
-Deployment & infrastructure provisioning of the Publisher app - [fb-publisher-deploy](https://github.com/ministryofjustice/fb-publisher-deploy)
+git-crypt - [fb-publisher-deploy](https://github.com/ministryofjustice/fb-publisher-deploy)
 
 Deployed on the Cloud Platform in these environments:
 
@@ -99,7 +97,6 @@ Stores encrypted data entered by users on the Runner forms.
 
 Provides a simple GET/POST JSON API to achieve that.
 
-
 ## User Filestore
 
 ### [fb-user-filestore](https://github.com/ministryofjustice/fb-user-filestore)
@@ -108,6 +105,11 @@ Stores encrypted files uploaded by users to the Runner forms.
 
 Provides a simple GET/POST JSON API to achieve that.
 
+## Anti-virus
+
+### [fb-av](https://github.com/ministryofjustice/fb-av)
+
+Provides anti-virus for the filestore. It uses ClamAV under the hood
 
 ## Submitter
 
@@ -116,6 +118,18 @@ Provides a simple GET/POST JSON API to achieve that.
 Once a user on a Runner service has completed their journey, clicking the final Submit button will result in the service sending a request to the Submitter - which asynchronously retrieves the user's information and sends it to where it needs to go.
 
 Provides a simple GET/POST JSON API to achieve that.
+
+## PDF Generator
+
+### [fb-pdf-generator](https://github.com/ministryofjustice/fb-pdf-generator)
+
+This API allows PDFs to be generated from a JSON payload. It uses `pdfkit` and `wkhtmltopdf` under the hood
+
+## Service Token Cache
+
+### [fb-service-token-cache](https://github.com/ministryofjustice/fb-service-token-cache)
+
+Requests between components are signed with private keys and verified with public keys. This service holds the public keys for the various components
 
 ## MoJ Cloud Platform
 
