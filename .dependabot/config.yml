@@ -7,6 +7,5 @@ update_configs:
     default_reviewers:
     - brenetic
     - tomas-stefano
-    - sequencemedialimited
     - mattempty
     - form-builder-developers
