@@ -6,9 +6,12 @@ It uses [JSON](documentation/glossary.md#json-and-json-schema) as its data inter
 
 - ## [Documentation](documentation/documentation.md)
 
-- ## [Architectual decision records](decisions/)
+- ## [Architectual decision records](decisions/README.md)
+
+- ## [Technical decision records](technical/README.md)
 
 - ## [Repositories](repositories.md)
+
 
 
 ### About this repo
