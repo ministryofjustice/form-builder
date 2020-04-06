@@ -1,7 +1,7 @@
 # Deployments Imagineering session 2
 Created by Tomas Destefi 02 April 2020
 
-On the last two retros we talked about that our deployment needs a lot of improvements. So 02/04 Me, Brendan and Matt did the session 2 of the Deploy imagineering session.
+In the last two retros we talked about how our deployments need a lot of improvements. So 02/04 Me, Brendan and Matt did the session 2 of the Deploy imagineering session.
 
 ## Proposal
 We want to improve our deployment in all the following applications (sort by level of priority):
@@ -47,7 +47,7 @@ Most of the trello cards were created with the assumption that they are small se
 12. [https://trello.com/c/nFlzcHv7/413-branches-can-deploy-to-test-on-submitter](https://trello.com/c/nFlzcHv7/413-branches-can-deploy-to-test-on-submitter)
 
 ## After the work above is done
-After the work above is done we need to apply to other repositories like the Runner, the file store, datastore, and so on.
+After the work above is done we need to apply the same changes to other repositories like the Runner, the file store, datastore, and so on.
 
 ## Considerations for the developers
 1. Don't overengineer but consider the same pipeline process to be applied to other repos like filestore, pdf generator so when doing for submitter the other could be easier to plug in.
