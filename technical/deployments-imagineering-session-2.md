@@ -15,7 +15,7 @@ We want to improve our deployment in all the following applications (sort by lev
 
 ## Benefits of this work
 When this work is finished we:
-1. We will have more confident on our deployments.
+1. We will have more confident in our deployments.
 2. We will deploy apps with more quality.
 3. We are adding extra checks before and after it goes live so we can make sure everything worked.
 4. Low risk releases.
@@ -28,8 +28,7 @@ When this work is finished we:
 We decided to start implementing the pipeline we envision on the submitter app.
 
 You can see step by step of the deployment pipeline (from left to right with some considerations).
-
-![alt text](TD01-deployment.png "Image of the deployment pipeline in context of theis document.")
+![deployment pipeline](TD01-deployment.png "Image of the deployment pipeline in context of this document.")
 
 ## Trello cards for the submitter
 Most of the trello cards were created with the assumption that they are small self contained deliverables, so we don't need to wait for the whole work to be finished, we can reap the benfits slowly and gradually. The trello cards for the submitter:
@@ -53,6 +52,5 @@ After the work above is done we need to apply the same changes to other reposito
 1. Don't overengineer but consider the same pipeline process to be applied to other repos like filestore, pdf generator so when doing for submitter the other could be easier to plug in.
 2. Branches can deploy to test (and stop there)
 3. Consider that we could leave CircleCI in the long term
-4. Branches can deploy to test (and stop there)
-5. In order to give us the confidence we need to test form via PDF/ CSVs / JSON endpoints (and submit each of those) (specific for submitter)
-6. After this work is started me (Tomas, Brendan and Matt) will review how is going what we agreed.
+4. In order to give us the confidence we need to test form via PDF/ CSVs / JSON endpoints (and submit each of those) (specific for submitter)
+5. After this work is started we (Tomas, Brendan and Matt) will review how is going what we agreed.
