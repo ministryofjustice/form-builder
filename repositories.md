@@ -10,7 +10,7 @@
   - [User Filestore](#user-filestore)
   - [Submitter](#submitter)
 - [MoJ Cloud Platform](#moj-cloud-platform)
-- [Utitlies](#utilities)
+- [Utilities](#utilities)
 - [Form repos](#form-repos)
 - [Integration Tests](#integration-tests)
 
