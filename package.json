@@ -25,6 +25,6 @@
     "glob-promise": "^3.4.0",
     "mermaid.cli": "^0.5.1",
     "mkdirp": "^1.0.4",
-    "yargs": "^15.4.1"
+    "yargs": "^16.0.2"
   }
 }
