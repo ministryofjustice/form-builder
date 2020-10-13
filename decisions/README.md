@@ -9,6 +9,9 @@ see [ADR-001](0001-record-architecture-decisions.md).
 * ✅ [2. Secure JSON Output](0002-secure-JSON-output.md) (accepted)
 * ✅ [3. Files in JSON Output](0003-files-in-JSON-output.md) (accepted)
 * ✅ [4. Microservice authentication](0004-microservice-authentication-method.md) (accepted)
+* ✅ [5. Integration with GitHub](0005-integration-with-github.md) (accepted)
+* ✅ [6. Reduce the number of Emails per Submission](0006-reduce-number-of-emails-per-submission.md) (accepted)
+* ✅ [7. Replacing the Storage](0007-replacing-the-storage.md) (accepted)
 
 ### Statuses:
 
