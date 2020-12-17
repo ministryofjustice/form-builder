@@ -12,6 +12,7 @@ see [ADR-001](0001-record-architecture-decisions.md).
 * ✅ [5. Integration with GitHub](0005-integration-with-github.md) (accepted)
 * ✅ [6. Reduce the number of Emails per Submission](0006-reduce-number-of-emails-per-submission.md) (accepted)
 * ✅ [7. Replacing the Storage](0007-replacing-the-storage.md) (accepted)
+* ✅ [8. The Runner](0008-the-runner.md) (accepted)
 
 ### Statuses:
 
