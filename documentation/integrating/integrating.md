@@ -1,9 +1,10 @@
 # Integrating Form Builder with 3rd Party Applications
 
-Any form hosted with the Form Builder can integrate easily with 3rd party applications
-by taking advantage of the [JSON output](../submitting/submitting.md) option.
+The Form Builder platform has the ability to send the data to an API (application programming interface) endpoint. Any form hosted with the Form Builder can integrate easily with 3rd party applications by taking advantage of the [JSON output](../submitting/submitting.md) option.
 
-See the [HMCTS Complaints Adapter](https://github.com/ministryofjustice/hmcts-complaints-formbuilder-adapter)
+The data is a JSON format and includes the question, answers and links to any uploaded documents. The JSON is encrypted by a key pair. There are 2 [Architecture Decision Records](https://github.com/ministryofjustice/form-builder/blob/master/decisions/README.md) outlining exactly how they work.
+
+See the [HMCTS Complaints Adapter](./hmcts-complaints-adapter.md)
 for an example of an application that consumes this JSON output and generates cases
 in a 3rd Party CMS system.
 
@@ -62,7 +63,7 @@ field either in the editor or in the JSON.
 The JSON payload is encrypted with [JSON Web Encryption](https://openid.net/specs/draft-jones-json-web-encryption-02.html).
 You can decrypt the payload using the shared secret key that you set as the
 `SERVICE_OUTPUT_JSON_KEY`. For an example of this see the
-[HMCTS Complaints Adapter](https://github.com/ministryofjustice/hmcts-complaints-formbuilder-adapter)
+[HMCTS Complaints Adapter](./hmcts-complaints-formbuilder-adapter.md)
 
 ## Encrypted Files
 
