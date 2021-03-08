@@ -12,8 +12,6 @@ It uses [JSON](documentation/glossary.md#json-and-json-schema) as its data inter
 
 - ## [Repositories](repositories.md)
 
-- ## [MVP](documetation/moj-forms/mvp.md)
-
 
 
 ### About this repo
