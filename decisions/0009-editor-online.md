@@ -27,5 +27,5 @@ After evaluating the different options and including the direction of the produc
 
 
 ## Consequences
-* The editor and runner need to develop features that the desktop editor  publisher and runner already has. This is acceptable, as the editor design has changed enough to make the rewriting the editor, combining the publisher and a new runner all using the new meta-data schema the same amount of effort.
+* The editor and runner need to develop features that the desktop editor, publisher and runner already have. This is acceptable, as the editor design has changed enough to make the rewriting the editor, combining the publisher and a new runner all using the new meta-data schema the same amount of effort.
 * The Form meta-data will not be compatible with between editors/runners. We have 14 forms live in production and a task in the backlog to look at migrating these forms to the new self service editor/publisher.
