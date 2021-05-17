@@ -23,7 +23,7 @@ It was decided to redesign the Editor to be more self service and to this end th
 
 ## Decision
 
-After evaluating the different otions and including the direction of the product, it was decided to rebuild the editor using Ruby of Rails and custom javascript for the front end.
+After evaluating the different options and including the direction of the product, it was decided to rebuild the editor using Ruby on Rails and custom javascript for the front end.
 
 
 ## Consequences
