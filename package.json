@@ -22,7 +22,7 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^5.1.0",
     "eslint-plugin-standard": "^5.0.0",
-    "glob-promise": "^4.2.0",
+    "glob-promise": "^4.2.2",
     "mermaid.cli": "^0.5.1",
     "mkdirp": "^1.0.4",
     "yargs": "^17.1.0"
